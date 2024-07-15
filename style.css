@@ -10,7 +10,8 @@ body{
 
 #container{
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
     width: 80vw;
     height: 100%; 
@@ -20,26 +21,10 @@ body{
     background-position: center; 
 }
 
-#left-eye {
-    top: 455px; /* Adjust the position */
-    left: 436px; /* Adjust the position */
-    width: 50px; /* Adjust the size */
-    height: 50px; /* Adjust the size */
-    border: solid black;
-}
-
-#right-eye {
-    top: 760px; /* Adjust the position */
-    left: 403px; /* Adjust the position */
-    width: 50px; /* Adjust the size */
-    height: 50px; /* Adjust the size */
-    border: solid black;
-}
-
-#book {
-    top: 60%; /* Adjust the position */
-    left: 40%; /* Adjust the position */
-    width: 100px; /* Adjust the size */
-    height: 50px; /* Adjust the size */
-    border: solid black;
+#container > #calculator{
+    background-color: blue;
+    width: 45%;
+    height: 40%;
+    margin: 37% 0 0 0;
+    border-radius: 10%;
 }
