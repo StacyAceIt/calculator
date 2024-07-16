@@ -1,17 +1,16 @@
-const container = document.getElementById("container");
+const image = document.getElementById("image");
 const buttons = document.getElementById("buttons");
 const numOfRows = 4;
 const numOfCols = 5;
 const buttonLabels = ["7", "8", "9", "/", "AC", "4", "5", "6", "*", "+/-", "1", "2", "3", "-", "%", "skip", "0", ".", "+", "="];
 const numberButtons = new Set(["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "."]);
 const operatorButtons = new Set(["+", "-", "*", "/", "="]);
-// const otherButtons = new Set(["AC", "+/-", "%"]);
 
 function getRandomImage() {
     const randomIndex = Math.floor(Math.random() * 6);
     return `url('./img/${randomIndex}.png')`;
 }
-container.style.backgroundImage = getRandomImage();
+image.style.backgroundImage = getRandomImage();
 
 function setBackgroundColor(button, label) {
     if (numberButtons.has(label)) {

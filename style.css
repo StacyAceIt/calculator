@@ -8,22 +8,7 @@ body{
     background-color: lemonchiffon;
 }
 
-#container{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    width: 90vw;
-    height: 100%; 
-    background-image: url('./img/0.png'); 
-    background-size: contain; 
-    background-repeat: no-repeat; 
-    background-position: center; 
-    padding: 0;
-    margin: 0
-}
-
-#container > #calculator{
+ #calculator{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -31,11 +16,11 @@ body{
     flex: 0 1 1;
     background-color: rgb(255, 245, 171);
     width: 500px;
-    height: 50%;
-    margin: 37% 0 2% 0;
+    height: 500px;
     border-radius: 2%;
     border: 10px solid rgb(62, 62, 62);
     box-sizing: border-box;
+    
 }
 
 #calculator > #screen{
@@ -55,11 +40,25 @@ body{
     font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;
 }
 
+#calculator > #image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 4px solid rgb(55, 30, 11);
+    width: 100%;
+    height: 25%;
+    margin: 0;
+    background-color: white;
+    box-sizing: border-box;
+    border-bottom-width: 0;
+    background-size: contain; 
+}
+
 #calculator > #buttons {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    height: 75%;
+    height: 50%;
     border: 4px solid rgb(55, 30, 11);
     box-sizing: border-box;
     background-color: rgb(55, 30, 11);
