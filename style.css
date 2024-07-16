@@ -20,7 +20,7 @@ body{
     border-radius: 2%;
     border: 10px solid rgb(62, 62, 62);
     box-sizing: border-box;
-    
+    background-image: url(./img/kitty.png);
 }
 
 #calculator > #screen{
