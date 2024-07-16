@@ -13,18 +13,37 @@ body{
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    width: 80vw;
+    width: 90vw;
     height: 100%; 
     background-image: url('./img/0.png'); 
     background-size: contain; 
     background-repeat: no-repeat; 
     background-position: center; 
+    padding: 0;
+    margin: 0
 }
 
 #container > #calculator{
-    background-color: blue;
-    width: 45%;
-    height: 40%;
-    margin: 37% 0 0 0;
-    border-radius: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: rgb(255, 245, 171);
+    width: 40%;
+    height: 50%;
+    margin: 37% 0 2% 0;
+    border-radius: 2%;
+    border: 10px solid rgb(62, 62, 62);
+    box-sizing: border-box;
 }
+
+#calculator > #screen{
+    border: 3px solid rgb(0, 0, 0);
+    box-sizing: border-box;
+    width: 100%;
+    height: 25%;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(211, 211, 211);
+}
+
