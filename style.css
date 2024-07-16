@@ -15,8 +15,8 @@ body{
     align-items: center;
     flex: 0 1 1;
     background-color: rgb(255, 245, 171);
-    width: 500px;
-    height: 500px;
+    width: 600px;
+    height: 600px;
     border-radius: 2%;
     border: 10px solid rgb(62, 62, 62);
     box-sizing: border-box;
