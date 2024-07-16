@@ -38,7 +38,7 @@ function createButtons() {
             if (buttonLabels[count] !== "skip") {
                 let div = document.createElement("div");
                 div.classList.add("button");
-                div.classList.add(buttonLabels[count]);
+                div.classList.add("button-" + buttonLabels[count]);
                 div.textContent = buttonLabels[count];
 
                 setBackgroundColor(div, buttonLabels[count]);
