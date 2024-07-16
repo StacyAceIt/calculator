@@ -5,7 +5,7 @@ const numOfCols = 5;
 const buttonLabels = ["7", "8", "9", "/", "AC", "4", "5", "6", "*", "+/-", "1", "2", "3", "-", "%", "skip", "0", ".", "+", "="];
 const numberButtons = new Set(["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "."]);
 const operatorButtons = new Set(["+", "-", "*", "/", "="]);
-const otherButtons = new Set(["AC", "+/-", "%"]);
+// const otherButtons = new Set(["AC", "+/-", "%"]);
 
 function getRandomImage() {
     const randomIndex = Math.floor(Math.random() * 6);
