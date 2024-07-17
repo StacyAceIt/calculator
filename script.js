@@ -4,23 +4,12 @@ const screen = document.getElementById("screen");
 const numOfRows = 4;
 const numOfCols = 5;
 const buttonLabels = ["7", "8", "9", "/", "AC", "4", "5", "6", "*", "+/-", "1", "2", "3", "-", "%", "skip", "0", ".", "+", "="];
-const numberButtons = new Set(["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "."]);
-const operatorButtons = new Set(["+", "-", "*", "/", "="]);
+const numberButtonsSet = new Set(["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "."]);
+const operatorButtonsSet = new Set(["+", "-", "*", "/", "="]);
 
 function getRandomImage() {
     const randomIndex = Math.floor(Math.random() * 6);
     return `url('./img/${randomIndex}.png')`;
-}
-image.style.backgroundImage = getRandomImage();
-
-function setBackgroundColor(button, label) {
-    if (numberButtons.has(label)) {
-        button.style.backgroundColor = "rgb(251, 111, 135)";
-    } else if (operatorButtons.has(label)) {
-        button.style.backgroundColor = "rgb(250, 160, 160)";
-    } else {
-        button.style.backgroundColor = "rgb(250, 128, 114)";
-    }
 }
 
 function setButtonDimensions(button, label) {
@@ -29,6 +18,18 @@ function setButtonDimensions(button, label) {
         button.style.width = `${2 * 100 / numOfCols}%`;
     } else {
         button.style.width = `${100 / numOfCols}%`;
+    }
+}
+
+function setBackgroundColor(button, label) {
+    if (numberButtonsSet.has(label)) {
+        button.style.backgroundColor = "rgb(251, 111, 135)";
+        button.classList.add("numberButton");
+    } else if (operatorButtonsSet.has(label)) {
+        button.style.backgroundColor = "rgb(250, 160, 160)";
+        button.classList.add("operatorButton");
+    } else {
+        button.style.backgroundColor = "rgb(250, 128, 114)";
     }
 }
 
@@ -50,27 +51,26 @@ function createButtons() {
             count++;
         }
     }
-
-    // Select the buttons after they have been created
-    const buttonList = document.querySelectorAll(".button");
-    buttonList.forEach(button => {
-        button.addEventListener("click", () => screen.textContent = button.textContent);
-    });
 }
-
+image.style.backgroundImage = getRandomImage();
 createButtons();
 
 // negate the displayed value
 const negateButton = document.querySelector(".\\+\\/\\-");
-if (negateButton) {
-    negateButton.addEventListener("click", () => {
-        if (screen.textContent){
-            if (screen.textContent[0] === "-") {
-                screen.textContent = screen.textContent.slice(1);
-            } else {
-                screen.textContent = "-" + screen.textContent;
-            }
+negateButton.addEventListener("click", () => {
+    screen.textContent = `${+screen.textContent * -1}`;
+});
+
+const numberButtons = document.querySelectorAll(".numberButton");
+numberButtons.forEach(numberButton => {
+    numberButton.addEventListener("click", () => {
+        // let currentValue = +screen.textContent;
+        if (screen.textContent.slice(-1) === "." || 
+        +screen.textContent !== 0 || 
+        numberButton.textContent === "."){
+            screen.textContent += numberButton.textContent;
+        } else{
+            screen.textContent = numberButton.textContent;
         }
-        
     });
-}
+});
