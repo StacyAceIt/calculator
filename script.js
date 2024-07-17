@@ -1,5 +1,6 @@
 const image = document.getElementById("image");
 const buttons = document.getElementById("buttons");
+const screen = document.getElementById("screen");
 const numOfRows = 4;
 const numOfCols = 5;
 const buttonLabels = ["7", "8", "9", "/", "AC", "4", "5", "6", "*", "+/-", "1", "2", "3", "-", "%", "skip", "0", ".", "+", "="];
@@ -38,7 +39,7 @@ function createButtons() {
             if (buttonLabels[count] !== "skip") {
                 let div = document.createElement("div");
                 div.classList.add("button");
-                div.classList.add("button-" + buttonLabels[count]);
+                div.classList.add(buttonLabels[count]);
                 div.textContent = buttonLabels[count];
 
                 setBackgroundColor(div, buttonLabels[count]);
@@ -49,6 +50,27 @@ function createButtons() {
             count++;
         }
     }
+
+    // Select the buttons after they have been created
+    const buttonList = document.querySelectorAll(".button");
+    buttonList.forEach(button => {
+        button.addEventListener("click", () => screen.textContent = button.textContent);
+    });
 }
 
 createButtons();
+
+// negate the displayed value
+const negateButton = document.querySelector(".\\+\\/\\-");
+if (negateButton) {
+    negateButton.addEventListener("click", () => {
+        if (screen.textContent){
+            if (screen.textContent[0] === "-") {
+                screen.textContent = screen.textContent.slice(1);
+            } else {
+                screen.textContent = "-" + screen.textContent;
+            }
+        }
+        
+    });
+}
