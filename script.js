@@ -6,6 +6,7 @@ const numOfCols = 5;
 const buttonLabels = ["7", "8", "9", "/", "AC", "4", "5", "6", "*", "+/-", "1", "2", "3", "-", "%", "skip", "0", ".", "+", "="];
 const numberButtonsSet = new Set(["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "."]);
 const operatorButtonsSet = new Set(["+", "-", "*", "/", "="]);
+let isFloat = false;
 
 function getRandomImage() {
     const randomIndex = Math.floor(Math.random() * 6);
@@ -52,6 +53,9 @@ function createButtons() {
         }
     }
 }
+function updateScreen(text){
+    screen.textContent = text;
+}
 image.style.backgroundImage = getRandomImage();
 createButtons();
 
@@ -61,16 +65,27 @@ negateButton.addEventListener("click", () => {
     screen.textContent = `${+screen.textContent * -1}`;
 });
 
+const percentageButton = document.querySelector(".\\%");
+percentageButton.addEventListener("click", () => {
+    screen.textContent = `${+screen.textContent / 100}`;
+});
+
+
+const errorSound = new Audio('./audio/minecraft_click.mp3');
 const numberButtons = document.querySelectorAll(".numberButton");
 numberButtons.forEach(numberButton => {
     numberButton.addEventListener("click", () => {
-        // let currentValue = +screen.textContent;
-        if (screen.textContent.slice(-1) === "." || 
-        +screen.textContent !== 0 || 
-        numberButton.textContent === "."){
-            screen.textContent += numberButton.textContent;
-        } else{
-            screen.textContent = numberButton.textContent;
+        if (numberButton.textContent === "."){
+            if (isFloat){
+                errorSound.play(); 
+            }else{
+                updateScreen(screen.textContent + ".");
+                isFloat = true;
+            }
+        }else if (screen.textContent === "0"){
+            updateScreen(numberButton.textContent);
+        }else{
+            updateScreen(screen.textContent + numberButton.textContent);
         }
     });
 });

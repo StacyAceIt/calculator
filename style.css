@@ -38,6 +38,9 @@ body{
     font-size: 3rem;
     font-weight: 900;
     font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;
+    overflow: hidden;
+    word-wrap: break-word;
+    /* text-align: right; */
 }
 
 #calculator > #image{
