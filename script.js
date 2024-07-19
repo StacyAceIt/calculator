@@ -19,35 +19,57 @@ const numberButtons = document.querySelectorAll(".numberButton");
 //ensure numbers are displayed properly and push operators 
 numberButtons.forEach(numberButton => {
     numberButton.addEventListener("click", () => {
-        if (previousOperator){
-            stack.push(previousOperator);
-            previousOperator = "";
-            console.log(stack);
-            resetScreenToZero();
-        }
-        if (numberButton.textContent === "."){
-            if (isFloat){
-                errorSound.play(); 
-            }else{
-                concatScreenContent(numberButton.textContent);
-                isFloat = true;
-            }
-        }else if (screen.textContent === "0"){
-            replaceScreenContent(numberButton.textContent);
-        }else{
-            concatScreenContent(numberButton.textContent);
-        }
+        handleNumberButtonClick(numberButton.textContent);
     });
 });
+
+function handleNumberButtonClick(text) {
+    if (previousOperator) {
+        processPreviousOperator();
+    }
+    if (text === ".") {
+        handleDecimalPoint();
+    } else {
+        handleNumber(text);
+    }
+}
+
+function processPreviousOperator() {
+    stack.push(previousOperator);
+    previousOperator = "";
+    console.log(stack);
+    resetScreenToZero();
+}
+
+function handleDecimalPoint() {
+    if (isFloat) {
+        errorSound.play();
+    } else {
+        concatScreenContent(".");
+        isFloat = true;
+    }
+}
+
+function handleNumber(text) {
+    if (screen.textContent === "0") {
+        replaceScreenContent(text);
+    } else {
+        concatScreenContent(text);
+    }
+}
+//operator clicked: push previous number to stack if stack is empty or stack[-1] is an operator
+//set previousOperator 
+//we do push NaN
+
 const operatorButtons = document.querySelectorAll(".operatorButton");
 operatorButtons.forEach(operatorButton => {
     operatorButton.addEventListener("click", () =>{
-        if (screen.textContent){
-            previousOperator = operatorButton.textContent;
+        if (!stack || operatorButtonsSet.has(stack[-1])){
+            
             stack.push(screen.textContent);
             console.log(stack);
         }
-        
+        previousOperator = operatorButton.textContent;
     });
 })
 
