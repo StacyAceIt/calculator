@@ -9,6 +9,10 @@ function concatScreenContent(text){
 function replaceScreenContent(text){
     screen.textContent = text;
 }
+function resetScreenToZero(){
+    screen.textContent = "0";
+    isFloat = false;
+}
 
 const errorSound = new Audio('./audio/minecraft_click.mp3');
 const numberButtons = document.querySelectorAll(".numberButton");
@@ -19,8 +23,7 @@ numberButtons.forEach(numberButton => {
             stack.push(previousOperator);
             previousOperator = "";
             console.log(stack);
-            // replaceScreenContent(numberButton.textContent);
-            screen.textContent = "0";
+            resetScreenToZero();
         }
         if (numberButton.textContent === "."){
             if (isFloat){
