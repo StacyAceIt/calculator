@@ -3,7 +3,7 @@ let isFloat = false;
 let previousOperator = "";
 let stack = [];
 
-function updateScreen(text){
+function concatScreenContent(text){
     screen.textContent += text;
 }
 function replaceScreenContent(text){
@@ -26,13 +26,13 @@ numberButtons.forEach(numberButton => {
             if (isFloat){
                 errorSound.play(); 
             }else{
-                updateScreen(numberButton.textContent);
+                concatScreenContent(numberButton.textContent);
                 isFloat = true;
             }
         }else if (screen.textContent === "0"){
             replaceScreenContent(numberButton.textContent);
         }else{
-            updateScreen(numberButton.textContent);
+            concatScreenContent(numberButton.textContent);
         }
     });
 });
