@@ -4,8 +4,6 @@ let isFloat = false;
 let previousOperator = "";
 let stack = [];
 
-
-
 function concatScreenContent(text){
     screen.textContent += text;
 }
@@ -61,6 +59,17 @@ function handleNumber(text) {
         concatScreenContent(text);
     }
 }
+function handleEvaluation(text){
+    if (text === "*" || text === "/"){
+        
+    }// else if (text === "+" || text === "-"){
+
+    // }else if (text === "="){
+
+    // }else{
+    //     console.log("handleEvaluation Error: not a valid operator");
+    // }
+}
 //operator clicked: push previous number to stack if stack is empty or stack top is an operator
 //set previousOperator 
 //we do push NaN
@@ -73,6 +82,8 @@ operatorButtons.forEach(operatorButton => {
             console.log(stack);
         }
         previousOperator = operatorButton.textContent;
+        handleEvaluation(operatorButton.textContent);
+        //evaluate in different ways when +- or */ is clicked
     });
 })
 
