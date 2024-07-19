@@ -6,7 +6,7 @@ let stack = [];
 function updateScreen(text){
     screen.textContent += text;
 }
-function resetScreen(text){
+function replaceScreenContent(text){
     screen.textContent = text;
 }
 
@@ -19,7 +19,8 @@ numberButtons.forEach(numberButton => {
             stack.push(previousOperator);
             previousOperator = "";
             console.log(stack);
-            resetScreen(numberButton.textContent);
+            // replaceScreenContent(numberButton.textContent);
+            screen.textContent = "0";
         }
         if (numberButton.textContent === "."){
             if (isFloat){
@@ -29,7 +30,7 @@ numberButtons.forEach(numberButton => {
                 isFloat = true;
             }
         }else if (screen.textContent === "0"){
-            resetScreen(numberButton.textContent);
+            replaceScreenContent(numberButton.textContent);
         }else{
             updateScreen(numberButton.textContent);
         }
@@ -51,14 +52,14 @@ const negateButton = document.querySelector(".\\+\\/\\-");
 negateButton.addEventListener("click", () => {
     let newValue = +screen.textContent * -1;
     isFloat = (!Number.isInteger(newValue)) ? true : false;
-    resetScreen(`${newValue}`);
+    replaceScreenContent(`${newValue}`);
 });
 
 const percentageButton = document.querySelector(".\\%");
 percentageButton.addEventListener("click", () => {
     let newValue = +screen.textContent / 100;
     isFloat = (!Number.isInteger(newValue)) ? true : false;
-    resetScreen(`${newValue}`);
+    replaceScreenContent(`${newValue}`);
 });
 
 
