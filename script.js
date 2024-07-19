@@ -1,7 +1,10 @@
 const screen = document.getElementById("screen");
+let canPushNumber = true;
 let isFloat = false;
 let previousOperator = "";
 let stack = [];
+
+
 
 function concatScreenContent(text){
     screen.textContent += text;
@@ -24,7 +27,7 @@ numberButtons.forEach(numberButton => {
 });
 
 function handleNumberButtonClick(text) {
-    if (previousOperator) {
+    if (previousOperator && (!canPushNumber)) {
         processPreviousOperator();
     }
     if (text === ".") {
@@ -39,6 +42,7 @@ function processPreviousOperator() {
     previousOperator = "";
     console.log(stack);
     resetScreenToZero();
+    canPushNumber = !canPushNumber;
 }
 
 function handleDecimalPoint() {
@@ -57,16 +61,15 @@ function handleNumber(text) {
         concatScreenContent(text);
     }
 }
-//operator clicked: push previous number to stack if stack is empty or stack[-1] is an operator
+//operator clicked: push previous number to stack if stack is empty or stack top is an operator
 //set previousOperator 
 //we do push NaN
-
 const operatorButtons = document.querySelectorAll(".operatorButton");
 operatorButtons.forEach(operatorButton => {
     operatorButton.addEventListener("click", () =>{
-        if (!stack || operatorButtonsSet.has(stack[-1])){
-            
+        if (canPushNumber){            
             stack.push(screen.textContent);
+            canPushNumber = !canPushNumber;
             console.log(stack);
         }
         previousOperator = operatorButton.textContent;
