@@ -1,5 +1,7 @@
 const screen = document.getElementById("screen");
 let isFloat = false;
+let previousOperator = "";
+let stack = [];
 
 function updateScreen(text){
     screen.textContent += text;
@@ -10,9 +12,15 @@ function resetScreen(text){
 
 const errorSound = new Audio('./audio/minecraft_click.mp3');
 const numberButtons = document.querySelectorAll(".numberButton");
-//ensure numbers are displayed properly
+//ensure numbers are displayed properly and push operators 
 numberButtons.forEach(numberButton => {
     numberButton.addEventListener("click", () => {
+        if (previousOperator){
+            stack.push(previousOperator);
+            previousOperator = "";
+            console.log(stack);
+            resetScreen(numberButton.textContent);
+        }
         if (numberButton.textContent === "."){
             if (isFloat){
                 errorSound.play(); 
@@ -27,6 +35,17 @@ numberButtons.forEach(numberButton => {
         }
     });
 });
+const operatorButtons = document.querySelectorAll(".operatorButton");
+operatorButtons.forEach(operatorButton => {
+    operatorButton.addEventListener("click", () =>{
+        if (screen.textContent){
+            previousOperator = operatorButton.textContent;
+            stack.push(screen.textContent);
+            console.log(stack);
+        }
+        
+    });
+})
 
 const negateButton = document.querySelector(".\\+\\/\\-");
 negateButton.addEventListener("click", () => {
