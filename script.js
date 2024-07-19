@@ -1,7 +1,6 @@
 const screen = document.getElementById("screen");
 let isFloat = false;
 
-
 function updateScreen(text){
     screen.textContent += text;
 }
@@ -9,9 +8,9 @@ function resetScreen(text){
     screen.textContent = text;
 }
 
-
 const errorSound = new Audio('./audio/minecraft_click.mp3');
 const numberButtons = document.querySelectorAll(".numberButton");
+//ensure numbers are displayed properly
 numberButtons.forEach(numberButton => {
     numberButton.addEventListener("click", () => {
         if (numberButton.textContent === "."){
