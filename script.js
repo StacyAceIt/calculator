@@ -3,7 +3,7 @@ let isNumberState = true;
 let isFloat = false;
 let previousOperator = null;
 let previousValue = screen.textContent;
-let subarrayNumberStack = [];
+let stack = [];
 let tmpResult = null;
 
 function concatScreenContent(text){
@@ -16,22 +16,39 @@ function resetScreenToZero(){
     screen.textContent = "0";
     isFloat = false;
 }
+function handleStack(newValue){
+    //if previousOperator is null, this is the first value, no change on stack
+    switch (previousOperator){
+        case "+":
+        case "-":
+        case "=":
+            stack.splice();
+            break;
+        case "*":
+        case "/":
+            stack.splice();
+            break;
+    }
+
+}
 
 const errorSound = new Audio('./audio/minecraft_click.mp3');
 const numberButtons = document.querySelectorAll(".numberButton");
 //ensure numbers are displayed properly and push operators 
 numberButtons.forEach(numberButton => {
     numberButton.addEventListener("click", () => {
+        //first click on a number button, process stack
+        if (!isNumberState) {
+            handleStack(+screen.textContent);
+            //reset screen content to 0 after storing screen content
+            resetScreenToZero();
+            isNumberState = true;            
+        }
         handleNumberButtonClick(numberButton.textContent);
     });
 });
 //after number is clicked
 function handleNumberButtonClick(text) {
-    //first click on a number button, process stack
-    if (!isNumberState) {
-        resetScreenToZero();
-        isNumberState = true;
-    }
     if (text === ".") {
         handleDecimalPoint();
     } else {
@@ -59,25 +76,25 @@ function handleNumber(text) {
 function pushPreviousValue(value, previousOperator){
     switch (previousOperator){
         case "*":
-            subarrayNumberStack[subarrayNumberStack.length - 1].push(+value);
+            stack[stack.length - 1].push(+value);
             break;
         case "/":
-            subarrayNumberStack[subarrayNumberStack.length - 1].push(1/value);
+            stack[stack.length - 1].push(1/value);
             break;
         case "-":
-            subarrayNumberStack.push([-value]);
+            stack.push([-value]);
             break;
         default:
-            subarrayNumberStack.push([+value]);
+            stack.push([+value]);
     }
-    console.log(subarrayNumberStack);
+    console.log(stack);
 }
 function computeValue(index){
     let result = 0;
-    for (let i = index; i < subarrayNumberStack.length; i++){
+    for (let i = index; i < stack.length; i++){
         let subResult = 1; 
-        for (let j = 0; j < subarrayNumberStack[i].length; j ++){
-            subResult *= subarrayNumberStack[i][j];
+        for (let j = 0; j < stack[i].length; j ++){
+            subResult *= stack[i][j];
         }
         result += subResult;
     }
@@ -88,7 +105,7 @@ function computeValue(index){
 function getTmpResultNumber(curOp){
     let tmpResultNumber;
     if (curOp === "*" || curOp === "/"){
-        tmpResultNumber = computeValue(subarrayNumberStack.length - 1);
+        tmpResultNumber = computeValue(stack.length - 1);
     }else if (curOp === "+" || curOp === "-"){
         tmpResultNumber = computeValue(0);
     }else{
@@ -98,7 +115,7 @@ function getTmpResultNumber(curOp){
     return tmpResultNumber;
 }
 
-//operator clicked: push previous number to subarrayNumberStack if subarrayNumberStack is empty or subarrayNumberStack top is an operator
+//operator clicked: push previous number to stack if stack is empty or stack top is an operator
 //set previousOperator 
 //we do push NaN
 const operatorButtons = document.querySelectorAll(".operatorButton");
