@@ -3,6 +3,7 @@ let isNumberState = true;
 let isFloat = false;
 let previousOperator = null;
 let previousValue = screen.textContent;
+//stack stores subarrays of numbers
 let stack = [];
 let tmpResult = null;
 
@@ -22,11 +23,11 @@ function handleStack(newValue){
         case "+":
         case "-":
         case "=":
-            stack.splice();
+            stack.splice(0, stack.length, [newValue]);
             break;
         case "*":
         case "/":
-            stack.splice();
+            stack.splice(stack.length - 1, 1, [newValue]);
             break;
     }
 
@@ -98,21 +99,23 @@ function computeValue(index){
         }
         result += subResult;
     }
-    console.log(`computeValue ${result}`);
+    // console.log(`computeValue ${result}`);
     return result;
 }
 //getTmpResultNumber when clicking on +-*/
 function getTmpResultNumber(curOp){
-    let tmpResultNumber;
-    if (curOp === "*" || curOp === "/"){
-        tmpResultNumber = computeValue(stack.length - 1);
-    }else if (curOp === "+" || curOp === "-"){
-        tmpResultNumber = computeValue(0);
-    }else{
-        console.log("Error in get tmpResultNumber: curOp does not exist!");
+    switch (curOp){
+        case "+":
+        case "-":
+        case "=":
+            return computeValue(0);
+        case "*":
+        case "/":
+            return computeValue(stack.length - 1);
+        default:
+            console.log("Error in get tmpResultNumber: curOp does not exist!");
+
     }
-    console.log(`getTmpResultNumber ${tmpResultNumber}`);
-    return tmpResultNumber;
 }
 
 //operator clicked: push previous number to stack if stack is empty or stack top is an operator
