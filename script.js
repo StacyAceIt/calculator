@@ -1,5 +1,5 @@
 const screen = document.getElementById("screen");
-let canPushNumber = true;
+let isNumberState = true;
 let isFloat = false;
 let previousOperator = null;
 let previousValue = screen.textContent;
@@ -27,10 +27,10 @@ numberButtons.forEach(numberButton => {
 });
 //after number is clicked
 function handleNumberButtonClick(text) {
-    //if canPushNumber === false, the previous symbol 
-    if (!canPushNumber) {
+    //first click on a number button, process stack
+    if (!isNumberState) {
         resetScreenToZero();
-        canPushNumber = true;
+        isNumberState = true;
     }
     if (text === ".") {
         handleDecimalPoint();
@@ -104,11 +104,11 @@ function getTmpResultNumber(curOp){
 const operatorButtons = document.querySelectorAll(".operatorButton");
 operatorButtons.forEach(operatorButton => {
     operatorButton.addEventListener("click", () =>{
-        if (canPushNumber){
+        if (isNumberState){
             previousValue = screen.textContent;
             pushPreviousValue(previousValue, previousOperator);            
             //can't push again after pushing number     
-            canPushNumber = false;
+            isNumberState = false;
         }
         tmpResult = getTmpResultNumber(operatorButton.textContent);
         replaceScreenContent(tmpResult.toString());
