@@ -76,7 +76,7 @@ function handleNumber(text) {
 function pushPreviousValue(value, previousOperator){
     switch (previousOperator){
         case "*":
-            stack[stack.length - 1].push(value);
+            stack[stack.length - 1].push(+value);
             break;
         case "/":
             stack[stack.length - 1].push(1/value);
@@ -85,7 +85,7 @@ function pushPreviousValue(value, previousOperator){
             stack.push([-value]);
             break;
         default:
-            stack.push([value]);
+            stack.push([+value]);
     }
     console.log(stack);
 }
