@@ -1,8 +1,27 @@
 const screen = document.getElementById("screen");
 let canPushNumber = true;
 let isFloat = false;
-let previousOperator = "";
+let previousOperator = null;
+let previousValue = null;
 let stack = [];
+//2d array: 
+//push screen number when press operator
+//when pressing currentOperator, if previousOperator is */, 
+//push screenNumber to inside 2d array
+//when pressing currentOperator, if previousOperator is +-, add previousValue new subarray
+//1 + : [[1]] show 1
+//1 + 2: show 2
+//1 + 2 +; [[1], [2]] : show 3
+//1 + 2 * : [[1], [2]] // show 2
+//1 + 2 + 1; [[1], [2]] : show 3 => get linear combo of all values
+//1 + 2 * 1: [[1], [2]] // show 2 => get product of last subarray
+//1 + 2 * 1 +; [[1], [2,1]] : show 3 => get linear combo of all values 
+//merge last subarray and then combine all subarrays
+//1 + 2 * 1 *: [[1], [2,1]] // show 2 => get product of last subarray
+//merge last subarray
+
+//press operator: change showing
+//press number: compute
 
 function concatScreenContent(text){
     screen.textContent += text;
@@ -59,17 +78,7 @@ function handleNumber(text) {
         concatScreenContent(text);
     }
 }
-function handleEvaluation(text){
-    if (text === "*" || text === "/"){
-        
-    }// else if (text === "+" || text === "-"){
 
-    // }else if (text === "="){
-
-    // }else{
-    //     console.log("handleEvaluation Error: not a valid operator");
-    // }
-}
 //operator clicked: push previous number to stack if stack is empty or stack top is an operator
 //set previousOperator 
 //we do push NaN
@@ -82,8 +91,7 @@ operatorButtons.forEach(operatorButton => {
             console.log(stack);
         }
         previousOperator = operatorButton.textContent;
-        handleEvaluation(operatorButton.textContent);
-        //evaluate in different ways when +- or */ is clicked
+
     });
 })
 
