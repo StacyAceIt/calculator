@@ -1,7 +1,7 @@
 const screen = document.getElementById("screen");
 let canPushNumber = true;
 let isFloat = false;
-let previousOperator = "";
+let previousOperator = null;
 let previousValue = screen.textContent;
 let stack = [];
 //2d array: 
@@ -44,7 +44,8 @@ numberButtons.forEach(numberButton => {
 });
 //after number is clicked
 function handleNumberButtonClick(text) {
-    if (previousOperator && (!canPushNumber)) {
+    //if canPushNumber === false, the previous symbol 
+    if (!canPushNumber) {
         resetScreenToZero();
         canPushNumber = true;
     }
@@ -73,15 +74,18 @@ function handleNumber(text) {
 }
 //push previousValue after clicking a new operator
 function pushPreviousValue(value, previousOperator){
-    console.log("previous operator " + previousOperator);
-    if ((previousOperator === "*" || previousOperator === "/")){
-        stack[stack.length - 1].push(value)
-        console.log("*/ previous operator " + previousOperator);
-        console.log("*/ previous value " + value);
-    }else{
-        stack.push([value]);
-        console.log("+- previous operator " + previousOperator);
-        console.log("+- previous value " + value);
+    switch (previousOperator){
+        case "*":
+            stack[stack.length - 1].push(value);
+            break;
+        case "/":
+            stack[stack.length - 1].push(1/value);
+            break;
+        case "-":
+            stack.push([-value]);
+            break;
+        default:
+            stack.push([value]);
     }
     console.log(stack);
 }
@@ -92,18 +96,15 @@ function pushPreviousValue(value, previousOperator){
 const operatorButtons = document.querySelectorAll(".operatorButton");
 operatorButtons.forEach(operatorButton => {
     operatorButton.addEventListener("click", () =>{
-        console.log("inside eventListener before update " + previousOperator);
         if (canPushNumber){
             previousValue = screen.textContent;
-            pushPreviousValue(previousValue, previousOperator);          
+            pushPreviousValue(previousValue, previousOperator);     
+            //can't push again after pushing number     
             canPushNumber = false;
-            // stack.push([value]);
         }
         
         previousOperator = operatorButton.textContent;
-        console.log("inside eventListener after update " + previousOperator);
         
-
     });
 })
 
