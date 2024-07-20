@@ -1,8 +1,8 @@
 const screen = document.getElementById("screen");
 let canPushNumber = true;
 let isFloat = false;
-let previousOperator = null;
-let previousValue = null;
+let previousOperator = "";
+let previousValue = screen.textContent;
 let stack = [];
 //2d array: 
 //push screen number when press operator
@@ -42,24 +42,17 @@ numberButtons.forEach(numberButton => {
         handleNumberButtonClick(numberButton.textContent);
     });
 });
-
+//after number is clicked
 function handleNumberButtonClick(text) {
     if (previousOperator && (!canPushNumber)) {
-        processPreviousOperator();
+        resetScreenToZero();
+        canPushNumber = true;
     }
     if (text === ".") {
         handleDecimalPoint();
     } else {
         handleNumber(text);
     }
-}
-
-function processPreviousOperator() {
-    stack.push(previousOperator);
-    previousOperator = "";
-    console.log(stack);
-    resetScreenToZero();
-    canPushNumber = !canPushNumber;
 }
 
 function handleDecimalPoint() {
@@ -78,6 +71,20 @@ function handleNumber(text) {
         concatScreenContent(text);
     }
 }
+//push previousValue after clicking a new operator
+function pushPreviousValue(value, previousOperator){
+    console.log("previous operator " + previousOperator);
+    if ((previousOperator === "*" || previousOperator === "/")){
+        stack[stack.length - 1].push(value)
+        console.log("*/ previous operator " + previousOperator);
+        console.log("*/ previous value " + value);
+    }else{
+        stack.push([value]);
+        console.log("+- previous operator " + previousOperator);
+        console.log("+- previous value " + value);
+    }
+    console.log(stack);
+}
 
 //operator clicked: push previous number to stack if stack is empty or stack top is an operator
 //set previousOperator 
@@ -85,12 +92,17 @@ function handleNumber(text) {
 const operatorButtons = document.querySelectorAll(".operatorButton");
 operatorButtons.forEach(operatorButton => {
     operatorButton.addEventListener("click", () =>{
-        if (canPushNumber){            
-            stack.push(screen.textContent);
-            canPushNumber = !canPushNumber;
-            console.log(stack);
+        console.log("inside eventListener before update " + previousOperator);
+        if (canPushNumber){
+            previousValue = screen.textContent;
+            pushPreviousValue(previousValue, previousOperator);          
+            canPushNumber = false;
+            // stack.push([value]);
         }
+        
         previousOperator = operatorButton.textContent;
+        console.log("inside eventListener after update " + previousOperator);
+        
 
     });
 })
