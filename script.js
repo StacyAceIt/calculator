@@ -3,7 +3,8 @@ let canPushNumber = true;
 let isFloat = false;
 let previousOperator = null;
 let previousValue = screen.textContent;
-let stack = [];
+let subarrayNumberStack = [];
+let tmpResultNumber = null;
 //2d array: 
 //push screen number when press operator
 //when pressing currentOperator, if previousOperator is */, 
@@ -76,21 +77,45 @@ function handleNumber(text) {
 function pushPreviousValue(value, previousOperator){
     switch (previousOperator){
         case "*":
-            stack[stack.length - 1].push(+value);
+            subarrayNumberStack[subarrayNumberStack.length - 1].push(+value);
             break;
         case "/":
-            stack[stack.length - 1].push(1/value);
+            subarrayNumberStack[subarrayNumberStack.length - 1].push(1/value);
             break;
         case "-":
-            stack.push([-value]);
+            subarrayNumberStack.push([-value]);
             break;
         default:
-            stack.push([+value]);
+            subarrayNumberStack.push([+value]);
     }
-    console.log(stack);
+    console.log(subarrayNumberStack);
+}
+function computeValue(index){
+    let result = 0;
+    for (let i = index; i < subarrayNumberStack.length; i++){
+        let subResult = 1; 
+        for (let j = 0; j < subarrayNumberStack[i].length; j ++){
+            subResult *= subarrayNumberStack[i][j];
+        }
+        result += subResult;
+    }
+    console.log(`computeValue ${result}`);
+    return result;
+}
+//getTmpResultNumber when clicking on +-*/
+function getTmpResultNumber(curOp){
+    if (curOp === "*" || curOp === "/"){
+        tmpResultNumber = computeValue(subarrayNumberStack.length - 1);
+    }else if (curOp === "+" || curOp === "-"){
+        tmpResultNumber = computeValue(0);
+    }else{
+        console.log("Error in get tmpResultNumber: curOp does not exist!");
+    }
+    console.log(`getTmpResultNumber ${tmpResultNumber}`);
+    return tmpResultNumber;
 }
 
-//operator clicked: push previous number to stack if stack is empty or stack top is an operator
+//operator clicked: push previous number to subarrayNumberStack if subarrayNumberStack is empty or subarrayNumberStack top is an operator
 //set previousOperator 
 //we do push NaN
 const operatorButtons = document.querySelectorAll(".operatorButton");
@@ -98,11 +123,11 @@ operatorButtons.forEach(operatorButton => {
     operatorButton.addEventListener("click", () =>{
         if (canPushNumber){
             previousValue = screen.textContent;
-            pushPreviousValue(previousValue, previousOperator);     
+            pushPreviousValue(previousValue, previousOperator);            
             //can't push again after pushing number     
             canPushNumber = false;
         }
-        
+        replaceScreenContent(`${getTmpResultNumber(operatorButton.textContent)}`);
         previousOperator = operatorButton.textContent;
         
     });
