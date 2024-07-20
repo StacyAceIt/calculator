@@ -4,25 +4,7 @@ let isFloat = false;
 let previousOperator = null;
 let previousValue = screen.textContent;
 let subarrayNumberStack = [];
-let tmpResultNumber = null;
-//2d array: 
-//push screen number when press operator
-//when pressing currentOperator, if previousOperator is */, 
-//push screenNumber to inside 2d array
-//when pressing currentOperator, if previousOperator is +-, add previousValue new subarray
-//1 + : [[1]] show 1
-//1 + 2: show 2
-//1 + 2 +; [[1], [2]] : show 3
-//1 + 2 * : [[1], [2]] // show 2
-//1 + 2 + 1; [[1], [2]] : show 3 => get linear combo of all values
-//1 + 2 * 1: [[1], [2]] // show 2 => get product of last subarray
-//1 + 2 * 1 +; [[1], [2,1]] : show 3 => get linear combo of all values 
-//merge last subarray and then combine all subarrays
-//1 + 2 * 1 *: [[1], [2,1]] // show 2 => get product of last subarray
-//merge last subarray
-
-//press operator: change showing
-//press number: compute
+let tmpResult = null;
 
 function concatScreenContent(text){
     screen.textContent += text;
@@ -104,6 +86,7 @@ function computeValue(index){
 }
 //getTmpResultNumber when clicking on +-*/
 function getTmpResultNumber(curOp){
+    let tmpResultNumber;
     if (curOp === "*" || curOp === "/"){
         tmpResultNumber = computeValue(subarrayNumberStack.length - 1);
     }else if (curOp === "+" || curOp === "-"){
@@ -127,7 +110,8 @@ operatorButtons.forEach(operatorButton => {
             //can't push again after pushing number     
             canPushNumber = false;
         }
-        replaceScreenContent(`${getTmpResultNumber(operatorButton.textContent)}`);
+        tmpResult = getTmpResultNumber(operatorButton.textContent);
+        replaceScreenContent(tmpResult.toString());
         previousOperator = operatorButton.textContent;
         
     });
