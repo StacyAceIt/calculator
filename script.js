@@ -1,12 +1,14 @@
 const screen = document.getElementById("screen");
+const errorSound = new Audio('./audio/minecraft_click.mp3');
+const numberButtons = document.querySelectorAll(".numberButton");
 let isNumberState = true;
 let isFloat = false;
 let previousOperator = null;
 let previousValue = screen.textContent;
 //stack stores subarrays of numbers
 let stack = [];
-let tmpResult = null;
 
+//screen management
 function concatScreenContent(text){
     screen.textContent += text;
 }
@@ -17,6 +19,7 @@ function resetScreenToZero(){
     screen.textContent = "0";
     isFloat = false;
 }
+//support event listeners for operator
 function handleStack(newValue){
     //if previousOperator is null, this is the first value, no change on stack
     switch (previousOperator){
@@ -32,12 +35,7 @@ function handleStack(newValue){
     }
 
 }
-
-const errorSound = new Audio('./audio/minecraft_click.mp3');
-const numberButtons = document.querySelectorAll(".numberButton");
-//ensure numbers are displayed properly and push operators 
-
-//after number is clicked
+//support event listeners for numbers
 function handleNumberButtonClick(text) {
     if (text === ".") {
         handleDecimalPoint();
@@ -106,7 +104,7 @@ function getTmpResultNumber(curOp){
 
     }
 }
-
+//event listeners
 numberButtons.forEach(numberButton => {
     numberButton.addEventListener("click", () => {
         //first click on a number button, process stack
@@ -130,7 +128,7 @@ operatorButtons.forEach(operatorButton => {
             //can't push again after pushing number     
             isNumberState = false;
         }
-        tmpResult = getTmpResultNumber(operatorButton.textContent);
+        let tmpResult = getTmpResultNumber(operatorButton.textContent);
         replaceScreenContent(tmpResult.toString());
         previousOperator = operatorButton.textContent;
 
@@ -151,4 +149,3 @@ percentageButton.addEventListener("click", () => {
     replaceScreenContent(`${newValue}`);
 });
 
-//testing line1 line2
