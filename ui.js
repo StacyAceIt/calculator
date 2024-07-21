@@ -1,54 +1,63 @@
-const numOfRows = 4;
-const numOfCols = 5;
-const buttonLabels = ["7", "8", "9", "/", "AC", "4", "5", "6", "*", "+/-", "1", "2", "3", "-", "%", "skip", "0", ".", "+", "="];
-const numberButtonsSet = new Set(["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "."]);
-const operatorButtonsSet = new Set(["+", "-", "*", "/", "="]);
-const buttons = document.getElementById("buttons");
+const CalculatorUI = {
+    numOfRows: 4,
+    numOfCols: 5,
+    buttonLabels: ["7", "8", "9", "/", "AC", "4", "5", "6", "*", "+/-", "1", "2", "3", "-", "%", "skip", "0", ".", "+", "="],
+    numberButtonsSet: new Set(["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "."]),
+    operatorButtonsSet: new Set(["+", "-", "*", "/", "="]),
+    buttonsContainer: document.getElementById("buttons"),
+    image: document.getElementById("image"),
 
-function getRandomImage() {
-    const randomIndex = Math.floor(Math.random() * 6);
-    return `url('./img/${randomIndex}.png')`;
-}
+    getRandomImage() {
+        const randomIndex = Math.floor(Math.random() * 6);
+        return `url('./img/${randomIndex}.png')`;
+    },
 
-function setButtonDimensions(button, label) {
-    button.style.height = `${100 / numOfRows}%`;
-    if (label === "0") {
-        button.style.width = `${2 * 100 / numOfCols}%`;
-    } else {
-        button.style.width = `${100 / numOfCols}%`;
-    }
-}
-
-function setBackgroundColor(button, label) {
-    if (numberButtonsSet.has(label)) {
-        button.style.backgroundColor = "rgb(251, 111, 135)";
-        button.classList.add("numberButton");
-    } else if (operatorButtonsSet.has(label)) {
-        button.style.backgroundColor = "rgb(250, 160, 160)";
-        button.classList.add("operatorButton");
-    } else {
-        button.style.backgroundColor = "rgb(250, 128, 114)";
-    }
-}
-
-function createButtons() {
-    let count = 0;
-    for (let r = 0; r < numOfRows; r++) {
-        for (let c = 0; c < numOfCols; c++) {
-            if (buttonLabels[count] !== "skip") {
-                let div = document.createElement("div");
-                div.classList.add("button");
-                div.classList.add(buttonLabels[count]);
-                div.textContent = buttonLabels[count];
-
-                setBackgroundColor(div, buttonLabels[count]);
-                setButtonDimensions(div, buttonLabels[count]);
-
-                buttons.appendChild(div);
-            }
-            count++;
+    setButtonDimensions(button, label) {
+        button.style.height = `${100 / this.numOfRows}%`;
+        if (label === "0") {
+            button.style.width = `${2 * 100 / this.numOfCols}%`;
+        } else {
+            button.style.width = `${100 / this.numOfCols}%`;
         }
+    },
+
+    setBackgroundColor(button, label) {
+        if (this.numberButtonsSet.has(label)) {
+            button.style.backgroundColor = "rgb(251, 111, 135)";
+            button.classList.add("numberButton");
+        } else if (this.operatorButtonsSet.has(label)) {
+            button.style.backgroundColor = "rgb(250, 160, 160)";
+            button.classList.add("operatorButton");
+        } else {
+            button.style.backgroundColor = "rgb(250, 128, 114)";
+        }
+    },
+
+    createButtons() {
+        let count = 0;
+        for (let r = 0; r < this.numOfRows; r++) {
+            for (let c = 0; c < this.numOfCols; c++) {
+                if (this.buttonLabels[count] !== "skip") {
+                    let div = document.createElement("div");
+                    div.classList.add("button");
+                    div.classList.add(this.buttonLabels[count]);
+                    div.textContent = this.buttonLabels[count];
+
+                    this.setBackgroundColor(div, this.buttonLabels[count]);
+                    this.setButtonDimensions(div, this.buttonLabels[count]);
+
+                    this.buttonsContainer.appendChild(div);
+                }
+                count++;
+            }
+        }
+    },
+
+    init() {
+        this.image.style.backgroundImage = this.getRandomImage();
+        this.createButtons();
     }
-}
-image.style.backgroundImage = getRandomImage();
-createButtons();
+};
+
+// Initialize the UI
+CalculatorUI.init();
