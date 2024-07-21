@@ -36,18 +36,7 @@ function handleStack(newValue){
 const errorSound = new Audio('./audio/minecraft_click.mp3');
 const numberButtons = document.querySelectorAll(".numberButton");
 //ensure numbers are displayed properly and push operators 
-numberButtons.forEach(numberButton => {
-    numberButton.addEventListener("click", () => {
-        //first click on a number button, process stack
-        if (!isNumberState) {
-            handleStack(+screen.textContent);
-            //reset screen content to 0 after storing screen content
-            resetScreenToZero();
-            isNumberState = true;            
-        }
-        handleNumberButtonClick(numberButton.textContent);
-    });
-});
+
 //after number is clicked
 function handleNumberButtonClick(text) {
     if (text === ".") {
@@ -88,7 +77,7 @@ function pushPreviousValue(value, previousOperator){
         default:
             stack.push([+value]);
     }
-    console.log(stack);
+    
 }
 function computeValue(index){
     let result = 0;
@@ -118,9 +107,22 @@ function getTmpResultNumber(curOp){
     }
 }
 
-//operator clicked: push previous number to stack if stack is empty or stack top is an operator
-//set previousOperator 
-//we do push NaN
+numberButtons.forEach(numberButton => {
+    numberButton.addEventListener("click", () => {
+        //first click on a number button, process stack
+        if (!isNumberState) {
+            handleStack(+screen.textContent);
+            //reset screen content to 0 after storing screen content
+            resetScreenToZero();
+            isNumberState = true;            
+        }
+        handleNumberButtonClick(numberButton.textContent);
+
+
+        console.log("num pop array: " + arrayToString(stack));
+    });
+});
+
 const operatorButtons = document.querySelectorAll(".operatorButton");
 operatorButtons.forEach(operatorButton => {
     operatorButton.addEventListener("click", () =>{
@@ -133,7 +135,8 @@ operatorButtons.forEach(operatorButton => {
         tmpResult = getTmpResultNumber(operatorButton.textContent);
         replaceScreenContent(tmpResult.toString());
         previousOperator = operatorButton.textContent;
-        
+
+        console.log("op: push pre number: " + arrayToString(stack));
     });
 })
 
@@ -152,4 +155,8 @@ percentageButton.addEventListener("click", () => {
 });
 
 
+
+function arrayToString(array) {
+    return array.map(subArray => "sub start " + subArray.join(", ")).join(" sub end\n");
+}
 
