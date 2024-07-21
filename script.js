@@ -118,8 +118,6 @@ numberButtons.forEach(numberButton => {
         }
         handleNumberButtonClick(numberButton.textContent);
 
-
-        console.log("num pop array: " + arrayToString(stack));
     });
 });
 
@@ -136,7 +134,6 @@ operatorButtons.forEach(operatorButton => {
         replaceScreenContent(tmpResult.toString());
         previousOperator = operatorButton.textContent;
 
-        console.log("op: push pre number: " + arrayToString(stack));
     });
 })
 
@@ -153,10 +150,4 @@ percentageButton.addEventListener("click", () => {
     isFloat = (!Number.isInteger(newValue)) ? true : false;
     replaceScreenContent(`${newValue}`);
 });
-
-
-
-function arrayToString(array) {
-    return array.map(subArray => "sub start " + subArray.join(", ")).join(" sub end\n");
-}
 
