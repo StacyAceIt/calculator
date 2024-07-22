@@ -1,6 +1,9 @@
 const screen = document.getElementById("screen");
 const errorSound = new Audio('./audio/minecraft_click.mp3');
 const numberButtons = document.querySelectorAll(".numberButton");
+const operatorButtons = document.querySelectorAll(".operatorButton");
+const negateButton = document.querySelector(".\\+\\/\\-");
+const percentageButton = document.querySelector(".\\%");
 let isNumberState = true;
 let isFloat = false;
 let previousOperator = null;
@@ -8,7 +11,7 @@ let previousValue = screen.textContent;
 //stack stores subarrays of numbers
 let stack = [];
 
-//screen management
+//screen management: shared by all event listeners
 function concatScreenContent(text){
     screen.textContent += text;
 }
@@ -17,49 +20,8 @@ function replaceScreenContent(text){
 }
 function resetScreenToZero(){
     screen.textContent = "0";
-    isFloat = false;
 }
 //support event listeners for operator
-function handleStack(newValue){
-    //if previousOperator is null, this is the first value, no change on stack
-    switch (previousOperator){
-        case "+":
-        case "-":
-        case "=":
-            stack.splice(0, stack.length, [newValue]);
-            break;
-        case "*":
-        case "/":
-            stack.splice(stack.length - 1, 1, [newValue]);
-            break;
-    }
-
-}
-//support event listeners for numbers
-function handleNumberButtonClick(text) {
-    if (text === ".") {
-        handleDecimalPoint();
-    } else {
-        handleNumber(text);
-    }
-}
-
-function handleDecimalPoint() {
-    if (isFloat) {
-        errorSound.play();
-    } else {
-        concatScreenContent(".");
-        isFloat = true;
-    }
-}
-
-function handleNumber(text) {
-    if (screen.textContent === "0") {
-        replaceScreenContent(text);
-    } else {
-        concatScreenContent(text);
-    }
-}
 //push previousValue after clicking a new operator
 function pushPreviousValue(value, previousOperator){
     switch (previousOperator){
@@ -77,6 +39,7 @@ function pushPreviousValue(value, previousOperator){
     }
     
 }
+//compute temporary value after clicking on operator
 function computeValue(index){
     let result = 0;
     for (let i = index; i < stack.length; i++){
@@ -104,6 +67,47 @@ function getTmpResultNumber(curOp){
 
     }
 }
+
+//support event listeners for numbers
+function handleStack(newValue){
+    //if previousOperator is null, this is the first value, no change on stack
+    switch (previousOperator){
+        case "+":
+        case "-":
+        case "=":
+            stack.splice(0, stack.length, [newValue]);
+            break;
+        case "*":
+        case "/":
+            stack.splice(stack.length - 1, 1, [newValue]);
+            break;
+    }
+
+}
+function handleNumberButtonClick(text) {
+    if (text === ".") {
+        handleDecimalPoint();
+    } else {
+        handleNumber(text);
+    }
+}
+function handleDecimalPoint() {
+    if (isFloat) {
+        errorSound.play();
+    } else {
+        concatScreenContent(".");
+        isFloat = true;
+    }
+}
+function handleNumber(text) {
+    if (screen.textContent === "0") {
+        replaceScreenContent(text);
+    } else {
+        concatScreenContent(text);
+    }
+}
+
+
 //event listeners
 numberButtons.forEach(numberButton => {
     numberButton.addEventListener("click", () => {
@@ -112,14 +116,14 @@ numberButtons.forEach(numberButton => {
             handleStack(+screen.textContent);
             //reset screen content to 0 after storing screen content
             resetScreenToZero();
-            isNumberState = true;            
+            isNumberState = true;
+            isFloat = false;            
         }
         handleNumberButtonClick(numberButton.textContent);
 
     });
 });
 
-const operatorButtons = document.querySelectorAll(".operatorButton");
 operatorButtons.forEach(operatorButton => {
     operatorButton.addEventListener("click", () =>{
         if (isNumberState){
@@ -135,14 +139,12 @@ operatorButtons.forEach(operatorButton => {
     });
 })
 
-const negateButton = document.querySelector(".\\+\\/\\-");
 negateButton.addEventListener("click", () => {
     let newValue = +screen.textContent * -1;
     isFloat = (!Number.isInteger(newValue)) ? true : false;
     replaceScreenContent(`${newValue}`);
 });
 
-const percentageButton = document.querySelector(".\\%");
 percentageButton.addEventListener("click", () => {
     let newValue = +screen.textContent / 100;
     isFloat = (!Number.isInteger(newValue)) ? true : false;
