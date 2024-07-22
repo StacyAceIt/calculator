@@ -1,15 +1,22 @@
+class Calculator{
+    constructor(){
+        this.stack = [];
+        this.isNumberState = true;
+        this.isFloat = false;
+        this.previousOperator = null;
+        this.previousValue = "";
+        this.errorSound = new Audio('./audio/minecraft_click.mp3');
+    }
+}
+const calculator = new Calculator();
 const screen = document.getElementById("screen");
-const errorSound = new Audio('./audio/minecraft_click.mp3');
+
 const numberButtons = document.querySelectorAll(".numberButton");
 const operatorButtons = document.querySelectorAll(".operatorButton");
 const negateButton = document.querySelector(".\\+\\/\\-");
 const percentageButton = document.querySelector(".\\%");
-let isNumberState = true;
-let isFloat = false;
-let previousOperator = null;
-let previousValue = screen.textContent;
+
 //stack stores subarrays of numbers
-let stack = [];
 
 //screen management: shared by all event listeners
 function concatScreenContent(text){
