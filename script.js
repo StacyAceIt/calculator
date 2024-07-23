@@ -30,8 +30,8 @@ class Calculator{
         operatorButtons.forEach(operatorButton => {
             operatorButton.addEventListener("click", () =>{
                 if (this.isNumberState){
-                    let previousValue = this.screen.textContent;
-                    this.pushPreviousText(previousValue, this.previousOperator);            
+                    this.previousText = this.screen.textContent;
+                    this.pushPreviousText(this.previousText, this.previousOperator);            
                     //can't push again after pushing number     
                     this.isNumberState = false;
                 }
@@ -116,17 +116,17 @@ class Calculator{
     }
 
     //support event listeners for numbers
-    computePreviousValues(newTextValue){
+    computePreviousValues(newText){
         //if previousOperator is null, this is the first value, no change on this.stack
         switch (this.previousOperator){
             case "+":
             case "-":
             case "=":
-                this.stack.splice(0, this.stack.length, [newTextValue]);
+                this.stack.splice(0, this.stack.length, [newText]);
                 break;
             case "*":
             case "/":
-                this.stack.splice(this.stack.length - 1, 1, [newTextValue]);
+                this.stack.splice(this.stack.length - 1, 1, [newText]);
                 break;
         }
 
