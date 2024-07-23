@@ -75,8 +75,12 @@ class Calculator{
             case "-":
                 this.stack.push([-value]);
                 break;
-            default:
+            case "+":
                 this.stack.push([+value]);
+                break;
+            case "=": //push and compute
+                this.stack.push([+value]);
+                break;
         }
         
     }
