@@ -13,7 +13,7 @@ class Calculator{
             numberButton.addEventListener("click", () => {
                 //first click on a number button, process stack
                 if (!this.isNumberState) {
-                    this.handleStack(+this.screen.textContent);
+                    this.computePreviousValues(+this.screen.textContent);
                     //reset screen content to 0 after storing screen content
                     this.resetScreenToZero();
                     this.isNumberState = true;
@@ -110,7 +110,7 @@ class Calculator{
     }
 
     //support event listeners for numbers
-    handleStack(newValue){
+    computePreviousValues(newValue){
         //if previousOperator is null, this is the first value, no change on this.stack
         switch (this.previousOperator){
             case "+":
