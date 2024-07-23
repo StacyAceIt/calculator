@@ -5,6 +5,7 @@ class Calculator{
         this.isNumberState = true;
         this.isFloat = false;
         this.previousOperator = null;
+        this.previousText = "";
         this.initEventListeners();
     }
     initEventListeners(){
@@ -13,7 +14,8 @@ class Calculator{
             numberButton.addEventListener("click", () => {
                 //first click on a number button, process stack
                 if (!this.isNumberState) {
-                    this.computePreviousValues(+this.screen.textContent);
+                    //screen.textContent is the previousValue
+                    this.computePreviousValues(this.previousText);
                     //reset screen content to 0 after storing screen content
                     this.resetScreenToZero();
                     this.isNumberState = true;
@@ -114,17 +116,17 @@ class Calculator{
     }
 
     //support event listeners for numbers
-    computePreviousValues(newValue){
+    computePreviousValues(newTextValue){
         //if previousOperator is null, this is the first value, no change on this.stack
         switch (this.previousOperator){
             case "+":
             case "-":
             case "=":
-                this.stack.splice(0, this.stack.length, [newValue]);
+                this.stack.splice(0, this.stack.length, [newTextValue]);
                 break;
             case "*":
             case "/":
-                this.stack.splice(this.stack.length - 1, 1, [newValue]);
+                this.stack.splice(this.stack.length - 1, 1, [newTextValue]);
                 break;
         }
 
