@@ -5,7 +5,6 @@ class Calculator{
         this.isNumberState = true;
         this.isFloat = false;
         this.previousOperator = null;
-        this.previousValue = "";
         this.initEventListeners();
     }
     initEventListeners(){
@@ -29,8 +28,8 @@ class Calculator{
         operatorButtons.forEach(operatorButton => {
             operatorButton.addEventListener("click", () =>{
                 if (this.isNumberState){
-                    this.previousValue = this.screen.textContent;
-                    this.pushPreviousValue(this.previousValue, this.previousOperator);            
+                    let previousValue = this.screen.textContent;
+                    this.pushPreviousValue(previousValue, this.previousOperator);            
                     //can't push again after pushing number     
                     this.isNumberState = false;
                 }
