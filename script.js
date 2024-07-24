@@ -29,8 +29,7 @@ class Calculator{
         const operatorButtons = document.querySelectorAll(".operatorButton");
         operatorButtons.forEach(operatorButton => {
             operatorButton.addEventListener("click", () =>{
-                if (this.isNumberState){
-                    
+                if (this.isNumberState){                  
                     this.previousText = this.screen.textContent;
                     console.log(`number state: ${this.previousText}`);
                     this.pushPreviousText(this.previousText, this.previousOperator);            
