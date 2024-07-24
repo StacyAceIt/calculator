@@ -1,4 +1,5 @@
 import { Equation } from './equation.js';
+import { Screen } from './screen.js';
 class Calculator{
     constructor(){
         this.screen = document.getElementById("screen");       
@@ -8,7 +9,9 @@ class Calculator{
         this.previousOperator = null;
         this.previousText = "";
         this.initEventListeners();
+        
         this.equation = new Equation();
+        this.screen = new Screen();
     }
     initEventListeners(){
         const numberButtons = document.querySelectorAll(".numberButton");
