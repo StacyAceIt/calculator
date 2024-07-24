@@ -66,22 +66,22 @@ class Calculator{
     }
     //support event listeners for operator
     //push previousValue after clicking a new operator
-    pushPreviousText(value, preOp){
+    pushPreviousText(preText, preOp){
         switch (preOp){
             case "*":
-                this.stack[this.stack.length - 1].push(+value);
+                this.stack[this.stack.length - 1].push(+preText);
                 break;
             case "/":
-                this.stack[this.stack.length - 1].push(1/value);
+                this.stack[this.stack.length - 1].push(1/preText);
                 break;
             case "-":
-                this.stack.push([-value]);
+                this.stack.push([-preText]);
                 break;
             case "+":
-                this.stack.push([+value]);
+                this.stack.push([+preText]);
                 break;
             case "=": //push and compute
-                this.stack.push([+value]);
+                this.stack.push([+preText]);
                 break;
         }
         
