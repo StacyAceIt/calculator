@@ -30,7 +30,9 @@ class Calculator{
         operatorButtons.forEach(operatorButton => {
             operatorButton.addEventListener("click", () =>{
                 if (this.isNumberState){
+                    
                     this.previousText = this.screen.textContent;
+                    console.log(`number state: ${this.previousText}`);
                     this.pushPreviousText(this.previousText, this.previousOperator);            
                     //can't push again after pushing number     
                     this.isNumberState = false;
@@ -38,7 +40,8 @@ class Calculator{
                 let tmpResult = this.getTmpResultNumber(operatorButton.textContent);
                 this.replaceScreenContent(tmpResult.toString());
                 this.previousOperator = operatorButton.textContent;
-        
+                console.log(this.stack);
+                console.log(`tmpResult ${tmpResult}`);
             });
         })
         const negateButton = document.querySelector(".\\+\\/\\-");
@@ -77,12 +80,8 @@ class Calculator{
             case "-":
                 this.stack.push([-preText]);
                 break;
-            case "+":
+            default:
                 this.stack.push([+preText]);
-                break;
-            case "=": //push and compute
-                this.stack.push([+preText]);
-                break;
         }
         
     }
@@ -96,7 +95,7 @@ class Calculator{
             }
             result += subResult;
         }
-        // console.log(`computeValue ${result}`);
+        console.log(`computeValue ${result}`);
         return result;
     }
     //getTmpResultNumber when clicking on +-*/
