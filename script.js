@@ -36,7 +36,7 @@ class Calculator{
         operatorButtons.forEach(operatorButton => {
             operatorButton.addEventListener("click", () =>{
                 if (this.isNumberState){                  
-                    this.previousText = this.screen.getContent;
+                    this.previousText = this.screen.getContent();
                     console.log(`number state: ${this.previousText}`);
                     this.pushPreviousText(this.previousText, this.previousOperator);            
                     //can't push again after pushing number     
@@ -51,14 +51,14 @@ class Calculator{
         })
         const negateButton = document.querySelector(".\\+\\/\\-");
         negateButton.addEventListener("click", () => {
-            let newValue = +this.screen.getContent * -1;
+            let newValue = +this.screen.getContent() * -1;
             this.isFloat = (!Number.isInteger(newValue)) ? true : false;
             this.screen.replaceScreenContent(`${newValue}`);
             this.isNumberState = false;
         });
         const percentageButton = document.querySelector(".\\%");
         percentageButton.addEventListener("click", () => {
-            let newValue = +this.screen.getContent / 100;
+            let newValue = +this.screen.getContent() / 100;
             
             this.isFloat = (!Number.isInteger(newValue)) ? true : false;
             this.screen.replaceScreenContent(`${newValue}`);
@@ -147,7 +147,7 @@ class Calculator{
         }
     }
     handleNumber(text) {
-        if (this.screen.getContent === "0") {
+        if (this.screen.getContent() === "0") {
             this.screen.replaceScreenContent(text);
         } else {
             this.screen.concatScreenContent(text);
