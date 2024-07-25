@@ -21,7 +21,7 @@ class Calculator{
                 //first click on a number button, process stack
                 if (!this.isNumberState) {
                     //this.screen.getContent is the previousValue
-                    this.computePreviousValues(this.previousText);
+                    this.computePreviousValues(this.screen.getContent());
                     //reset screen content to 0 after storing screen content
                     this.screen.reset();
                     this.isNumberState = true;
@@ -81,12 +81,13 @@ class Calculator{
                 this.stack.push([-preText]);
                 break;
             default:
+                console.log(`pushed ${+preText}`)
                 this.stack.push([+preText]);
         }
         
     }
     //compute temporary value after clicking on operator
-    computeValue(index){
+    computeTmpValue(index){
         let result = 0;
         for (let i = index; i < this.stack.length; i++){
             let subResult = 1; 
@@ -95,7 +96,7 @@ class Calculator{
             }
             result += subResult;
         }
-        console.log(`computeValue ${result}`);
+        console.log(`computeTmpValue ${result} type ${typeof result}`);
         return result;
     }
     //getTmpResultNumber when clicking on +-*/
@@ -104,10 +105,10 @@ class Calculator{
             case "+":
             case "-":
             case "=":
-                return this.computeValue(0);
+                return this.computeTmpValue(0);
             case "*":
             case "/":
-                return this.computeValue(this.stack.length - 1);
+                return this.computeTmpValue(this.stack.length - 1);
             default:
                 console.log("Error in get tmpResultNumber: curOp does not exist!");
 
@@ -121,11 +122,11 @@ class Calculator{
             case "+":
             case "-":
             case "=":
-                this.stack.splice(0, this.stack.length, [newText]);
+                this.stack.splice(0, this.stack.length, [+newText]);
                 break;
             case "*":
             case "/":
-                this.stack.splice(this.stack.length - 1, 1, [newText]);
+                this.stack.splice(this.stack.length - 1, 1, [+newText]);
                 break;
         }
 
