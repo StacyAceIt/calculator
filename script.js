@@ -3,16 +3,16 @@ import { Screen } from './screen.js';
 
 class Calculator{
     constructor(){
-        this.screen = document.getElementById("screen");       
+        // this.screen.getContent = document.getElementById("screen");       
         this.stack = [];
         this.isNumberState = true;
         this.isFloat = false;
         this.previousOperator = null;
         this.previousText = "";
         this.initEventListeners();
-
-        this.equation = new Equation();
+        // this.equation = new Equation();
         this.screen = new Screen();
+        
     }
     initEventListeners(){
         const numberButtons = document.querySelectorAll(".numberButton");
@@ -20,15 +20,15 @@ class Calculator{
             numberButton.addEventListener("click", () => {
                 //first click on a number button, process stack
                 if (!this.isNumberState) {
-                    //screen.textContent is the previousValue
+                    //this.screen.getContent is the previousValue
                     this.computePreviousValues(this.previousText);
                     //reset screen content to 0 after storing screen content
-                    this.resetScreenToZero();
+                    this.screen.reset();
                     this.isNumberState = true;
                     this.isFloat = false;            
                 }
                 this.handleNumberButtonClick(numberButton.textContent);
-        
+                console.log(`numberButton ${numberButton.textContent}`)
             });
         });
         
@@ -36,7 +36,7 @@ class Calculator{
         operatorButtons.forEach(operatorButton => {
             operatorButton.addEventListener("click", () =>{
                 if (this.isNumberState){                  
-                    this.previousText = this.screen.textContent;
+                    this.previousText = this.screen.getContent;
                     console.log(`number state: ${this.previousText}`);
                     this.pushPreviousText(this.previousText, this.previousOperator);            
                     //can't push again after pushing number     
@@ -51,27 +51,22 @@ class Calculator{
         })
         const negateButton = document.querySelector(".\\+\\/\\-");
         negateButton.addEventListener("click", () => {
-            let newValue = +this.screen.textContent * -1;
+            let newValue = +this.screen.getContent * -1;
             this.isFloat = (!Number.isInteger(newValue)) ? true : false;
             this.replaceScreenContent(`${newValue}`);
+            this.isNumberState = false;
         });
         const percentageButton = document.querySelector(".\\%");
         percentageButton.addEventListener("click", () => {
-            let newValue = +this.screen.textContent / 100;
+            let newValue = +this.screen.getContent / 100;
+            
             this.isFloat = (!Number.isInteger(newValue)) ? true : false;
             this.replaceScreenContent(`${newValue}`);
+            this.isNumberState = false;
         });
     }
     //screen management: shared by all event listeners
-    concatScreenContent(text){
-        this.screen.textContent += text;
-    }
-    replaceScreenContent(text){
-        this.screen.textContent = text;
-    }
-    resetScreenToZero(){
-        this.screen.textContent = "0";
-    }
+    
     //support event listeners for operator
     //push previousValue after clicking a new operator
     pushPreviousText(preText, preOp){
@@ -152,7 +147,7 @@ class Calculator{
         }
     }
     handleNumber(text) {
-        if (this.screen.textContent === "0") {
+        if (this.screen.getContent === "0") {
             this.replaceScreenContent(text);
         } else {
             this.concatScreenContent(text);
