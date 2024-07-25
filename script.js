@@ -43,7 +43,7 @@ class Calculator{
                     this.isNumberState = false;
                 }
                 let tmpResult = this.getTmpResultNumber(operatorButton.textContent);
-                this.replaceScreenContent(tmpResult.toString());
+                this.screen.replaceScreenContent(tmpResult.toString());
                 this.previousOperator = operatorButton.textContent;
                 console.log(this.stack);
                 console.log(`tmpResult ${tmpResult}`);
@@ -53,7 +53,7 @@ class Calculator{
         negateButton.addEventListener("click", () => {
             let newValue = +this.screen.getContent * -1;
             this.isFloat = (!Number.isInteger(newValue)) ? true : false;
-            this.replaceScreenContent(`${newValue}`);
+            this.screen.replaceScreenContent(`${newValue}`);
             this.isNumberState = false;
         });
         const percentageButton = document.querySelector(".\\%");
@@ -61,7 +61,7 @@ class Calculator{
             let newValue = +this.screen.getContent / 100;
             
             this.isFloat = (!Number.isInteger(newValue)) ? true : false;
-            this.replaceScreenContent(`${newValue}`);
+            this.screen.replaceScreenContent(`${newValue}`);
             this.isNumberState = false;
         });
     }
@@ -142,15 +142,15 @@ class Calculator{
         if (this.isFloat) {
             errorSound.play();
         } else {
-            this.concatScreenContent(".");
+            this.screen.concatScreenContent(".");
             this.isFloat = true;
         }
     }
     handleNumber(text) {
         if (this.screen.getContent === "0") {
-            this.replaceScreenContent(text);
+            this.screen.replaceScreenContent(text);
         } else {
-            this.concatScreenContent(text);
+            this.screen.concatScreenContent(text);
         }
     }
 
