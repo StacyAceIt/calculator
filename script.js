@@ -11,9 +11,18 @@ class Calculator{
         this.initEventListeners();
         // this.equation = new Equation();
         this.screen = new Screen();
+        this.curButton = null;
+        this.preButton = null;
         
     }
     initEventListeners(){
+        const buttons = document.querySelectorAll(".button");
+        buttons.forEach(button => {
+            button.addEventListener("click", () =>{
+                this.preButton = this.curButton;
+                this.curButton = button.textContent;
+            });
+        });
         const numberButtons = document.querySelectorAll(".numberButton");
         numberButtons.forEach(numberButton => {
             numberButton.addEventListener("click", () => {
@@ -34,7 +43,7 @@ class Calculator{
         const operatorButtons = document.querySelectorAll(".operatorButton");
         operatorButtons.forEach(operatorButton => {
             operatorButton.addEventListener("click", () =>{
-                if (this.isNumberState){                  
+                if (this.isNumberState){  //can push value if previous input is not an operator                
                     let previousText = this.screen.getContent();
                     console.log(`number state: ${previousText}`);
                     this.pushPreviousText(previousText, this.previousOperator);            
@@ -53,14 +62,14 @@ class Calculator{
             let newValue = +this.screen.getContent() * -1;
             // this.isFloat = (!Number.isInteger(newValue)) ? true : false;
             this.screen.replaceScreenContent(`${newValue}`);
-            this.isNumberState = false;
+            // this.isNumberState = false;
         });
         const percentageButton = document.querySelector(".\\%");
         percentageButton.addEventListener("click", () => {
             let newValue = +this.screen.getContent() / 100;            
             // this.isFloat = (!Number.isInteger(newValue)) ? true : false;
             this.screen.replaceScreenContent(`${newValue}`);
-            this.isNumberState = false;
+            // this.isNumberState = false;
         });
     }
     //screen management: shared by all event listeners
