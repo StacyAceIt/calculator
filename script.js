@@ -24,9 +24,12 @@ class Calculator{
         numberButtons.forEach(numberButton => {
             numberButton.addEventListener("click", () => {
                 //first click on a number button, process stack
-                if (!this.isNumberState) {
+                if (this.previousOperator === "="){
+                    this.reset();
+                }
+                else if (!this.isNumberState) {
                     //this.screen.getContent is the previousValue
-                    this.computePreviousValues(this.screen.getContent());
+                    this.computeStack(this.screen.getContent());
                     //reset screen content to 0 after storing screen content
                     this.screen.reset();
                     this.isNumberState = true;
@@ -116,7 +119,7 @@ class Calculator{
     }
 
     //support event listeners for numbers
-    computePreviousValues(newText){
+    computeStack(newText){
         //if previousOperator is null, this is the first value, no change on this.stack
         switch (this.previousOperator){
             case "+":
