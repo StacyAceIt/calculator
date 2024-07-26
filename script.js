@@ -51,14 +51,16 @@ class Calculator{
         const negateButton = document.querySelector(".\\+\\/\\-");
         negateButton.addEventListener("click", () => {
             let newValue = +this.screen.getContent() * -1;
-            this.isFloat = (!Number.isInteger(newValue)) ? true : false;
+            // this.isFloat = (!Number.isInteger(newValue)) ? true : false;
             this.screen.replaceScreenContent(`${newValue}`);
+            this.isNumberState = false;
         });
         const percentageButton = document.querySelector(".\\%");
         percentageButton.addEventListener("click", () => {
             let newValue = +this.screen.getContent() / 100;            
-            this.isFloat = (!Number.isInteger(newValue)) ? true : false;
+            // this.isFloat = (!Number.isInteger(newValue)) ? true : false;
             this.screen.replaceScreenContent(`${newValue}`);
+            this.isNumberState = false;
         });
     }
     //screen management: shared by all event listeners
