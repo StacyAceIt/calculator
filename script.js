@@ -1,28 +1,25 @@
-import { Equation } from './equation.js';
 import { Screen } from './screen.js';
 
 class Calculator{
-    constructor(){
-        // this.screen.getContent = document.getElementById("screen");       
+    constructor(){      
         this.stack = [];
         this.isNumberState = true;
         this.isFloat = false;
         this.previousOperator = null;
+
         this.initEventListeners();
-        // this.equation = new Equation();
-        this.screen = new Screen();
-        this.curButton = null;
-        this.preButton = null;
-        
+        this.screen = new Screen();        
+        // this.preButton = null;
+        // this.curButton = null;
     }
     initEventListeners(){
-        const buttons = document.querySelectorAll(".button");
-        buttons.forEach(button => {
-            button.addEventListener("click", () =>{
-                this.preButton = this.curButton;
-                this.curButton = button.textContent;
-            });
-        });
+        // const buttons = document.querySelectorAll(".button");
+        // buttons.forEach(button => {
+        //     button.addEventListener("click", () =>{
+        //         this.preButton = this.curButton;
+        //         this.curButton = button.textContent;
+        //     });
+        // });
         const numberButtons = document.querySelectorAll(".numberButton");
         numberButtons.forEach(numberButton => {
             numberButton.addEventListener("click", () => {
@@ -60,16 +57,12 @@ class Calculator{
         const negateButton = document.querySelector(".\\+\\/\\-");
         negateButton.addEventListener("click", () => {
             let newValue = +this.screen.getContent() * -1;
-            // this.isFloat = (!Number.isInteger(newValue)) ? true : false;
             this.screen.replaceScreenContent(`${newValue}`);
-            // this.isNumberState = false;
         });
         const percentageButton = document.querySelector(".\\%");
         percentageButton.addEventListener("click", () => {
             let newValue = +this.screen.getContent() / 100;            
-            // this.isFloat = (!Number.isInteger(newValue)) ? true : false;
             this.screen.replaceScreenContent(`${newValue}`);
-            // this.isNumberState = false;
         });
     }
     //screen management: shared by all event listeners
@@ -160,6 +153,13 @@ class Calculator{
         } else {
             this.screen.concatScreenContent(text);
         }
+    }
+    reset(){
+        this.stack = [];
+        this.isNumberState = true;
+        this.isFloat = false;
+        this.previousOperator = null;
+        this.screen.reset();
     }
 
 }
