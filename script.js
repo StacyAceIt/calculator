@@ -9,17 +9,17 @@ class Calculator{
 
         this.initEventListeners();
         this.screen = new Screen();        
-        // this.preButton = null;
-        // this.curButton = null;
+        this.preButton = null;
+        this.curButton = null;
     }
     initEventListeners(){
-        // const buttons = document.querySelectorAll(".button");
-        // buttons.forEach(button => {
-        //     button.addEventListener("click", () =>{
-        //         this.preButton = this.curButton;
-        //         this.curButton = button.textContent;
-        //     });
-        // });
+        const buttons = document.querySelectorAll(".button");
+        buttons.forEach(button => {
+            button.addEventListener("click", () =>{
+                this.preButton = this.curButton;
+                this.curButton = button.textContent;
+            });
+        });
         const numberButtons = document.querySelectorAll(".numberButton");
         numberButtons.forEach(numberButton => {
             numberButton.addEventListener("click", () => {
@@ -43,10 +43,10 @@ class Calculator{
         const operatorButtons = document.querySelectorAll(".operatorButton");
         operatorButtons.forEach(operatorButton => {
             operatorButton.addEventListener("click", () =>{
-                if (this.isNumberState){  //can push value if previous input is not an operator                
-                    let previousText = this.screen.getContent();
-                    console.log(`number state: ${previousText}`);
-                    this.pushPreviousText(previousText, this.previousOperator);            
+                if (!new Set(["+", "-", "*", "/"]).has(this.preButton)){  //can push value if previous input is not an operator                
+                    // let previousText = this.screen.getContent();
+                    // console.log(`number state: ${previousText}`);
+                    this.pushScreenText(this.screen.getContent(), this.previousOperator);            
                     //can't push again after pushing number     
                     this.isNumberState = false;
                 }
@@ -72,7 +72,7 @@ class Calculator{
     
     //support event listeners for operator
     //push previousValue after clicking a new operator
-    pushPreviousText(preText, preOp){
+    pushScreenText(preText, preOp){
         switch (preOp){
             case "*":
                 this.stack[this.stack.length - 1].push(+preText);
@@ -83,6 +83,8 @@ class Calculator{
             case "-":
                 this.stack.push([-preText]);
                 break;
+            case "=":
+                this.stack = [];               
             default:
                 console.log(`pushed ${+preText}`)
                 this.stack.push([+preText]);
