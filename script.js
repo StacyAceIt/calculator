@@ -10,7 +10,7 @@ class Calculator{
         this.screen = new Screen();        
         this.preButton = null;
         this.curButton = null;
-        this.operatorSet = new Set(["+", "-", "*", "/"]);
+        this.operatorSet = new Set(["+", "-", "*", "/", "="]);
     }
     initEventListeners(){
         const buttons = document.querySelectorAll(".button");
@@ -72,10 +72,9 @@ class Calculator{
         //reset screen content to 0 after storing screen content
         this.screen.reset();
         this.isFloat = false;
-        if (this.preButton === "=" || this.curButton === "AC"){
+        if (this.curButton === "AC"){
             this.reset();
         }     
-
     }
     enteringOperatorState(){
             this.pushScreenText(this.screen.getContent(), this.previousOperator);  
