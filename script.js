@@ -3,7 +3,6 @@ import { Screen } from './screen.js';
 class Calculator{
     constructor(){      
         this.stack = [];
-        this.isNumberState = true;
         this.isFloat = false;
         this.previousOperator = null;
 
@@ -11,6 +10,7 @@ class Calculator{
         this.screen = new Screen();        
         this.preButton = null;
         this.curButton = null;
+        this.operatorSet = new Set(["+", "-", "*", "/"]);
     }
     initEventListeners(){
         const buttons = document.querySelectorAll(".button");
@@ -18,43 +18,31 @@ class Calculator{
             button.addEventListener("click", () =>{
                 this.preButton = this.curButton;
                 this.curButton = button.textContent;
+                if (this.isOperatorState(this.preButton) && this.isNumberState(this.curButton)){
+                    //entering number state: 
+                    this.enteringNumberState();
+                    
+                }else if (this.isNumberState(this.preButton) && this.isOperatorState(this.curButton)){
+                    //entering operator state
+                    this.enteringOperatorState();
+                }
             });
         });
         const numberButtons = document.querySelectorAll(".numberButton");
         numberButtons.forEach(numberButton => {
-            numberButton.addEventListener("click", () => {
-                //first click on a number button, process stack
-                // if (this.previousOperator === "="){
-                //     this.reset();
-                // }
-                 if (!this.isNumberState) {
-                    //this.screen.getContent is the previousValue
-                    this.computeStack(this.screen.getContent());
-                    //reset screen content to 0 after storing screen content
-                    this.screen.reset();
-                    this.isNumberState = true;
-                    this.isFloat = false;            
-                }
+            numberButton.addEventListener("click", () => {                 
                 this.handleNumberButtonClick(numberButton.textContent);
-                console.log(`numberButton ${numberButton.textContent}`)
             });
         });
         
         const operatorButtons = document.querySelectorAll(".operatorButton");
         operatorButtons.forEach(operatorButton => {
             operatorButton.addEventListener("click", () =>{
-                if (!new Set(["+", "-", "*", "/"]).has(this.preButton)){  //can push value if previous input is not an operator                
-                    // let previousText = this.screen.getContent();
-                    // console.log(`number state: ${previousText}`);
-                    this.pushScreenText(this.screen.getContent(), this.previousOperator);            
-                    //can't push again after pushing number     
-                    this.isNumberState = false;
-                }
                 let tmpResult = this.getTmpResultNumber(operatorButton.textContent);
                 this.screen.replaceScreenContent(tmpResult.toString());
                 this.previousOperator = operatorButton.textContent;
-                console.log(this.stack);
-                console.log(`tmpResult ${tmpResult}`);
+                // console.log(this.stack);
+                // console.log(`tmpResult ${tmpResult}`);
             });
         })
         const negateButton = document.querySelector(".\\+\\/\\-");
@@ -72,6 +60,26 @@ class Calculator{
     
     //support event listeners for operator
     //push previousValue after clicking a new operator
+    isNumberState(buttonLabel){
+        return !this.operatorSet.has(buttonLabel);
+    }
+    isOperatorState(buttonLabel){
+        return this.operatorSet.has(buttonLabel);
+    }
+    enteringNumberState(){
+        //this.screen.getContent is the previousValue
+        this.computeStack(this.screen.getContent());
+        //reset screen content to 0 after storing screen content
+        this.screen.reset();
+        this.isFloat = false;
+        if (this.preButton === "=" || this.curButton === "AC"){
+            this.reset();
+        }     
+
+    }
+    enteringOperatorState(){
+            this.pushScreenText(this.screen.getContent(), this.previousOperator);  
+    }
     pushScreenText(preText, preOp){
         switch (preOp){
             case "*":
@@ -164,10 +172,7 @@ class Calculator{
     }
     reset(){
         this.stack = [];
-        this.isNumberState = true;
-        this.isFloat = false;
         this.previousOperator = null;
-        this.screen.reset();
     }
 
 }
