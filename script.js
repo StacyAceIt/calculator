@@ -18,8 +18,7 @@ class Calculator{
             button.addEventListener("click", () =>{
                 this.preButton = this.curButton;
                 this.curButton = button.textContent;
-                console.log(this.curButton == "AC");
-                if (this.isOperatorState(this.preButton) && this.isNumberState(this.curButton)){
+                if ((this.curButton === "AC")||(this.isOperatorState(this.preButton) && this.isNumberState(this.curButton))){
                     //entering number state: 
                     this.enteringNumberState();
                     
