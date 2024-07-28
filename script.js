@@ -18,6 +18,7 @@ class Calculator{
             button.addEventListener("click", () =>{
                 this.preButton = this.curButton;
                 this.curButton = button.textContent;
+                console.log(this.curButton == "AC");
                 if (this.isOperatorState(this.preButton) && this.isNumberState(this.curButton)){
                     //entering number state: 
                     this.enteringNumberState();
@@ -72,12 +73,13 @@ class Calculator{
         //reset screen content to 0 after storing screen content
         this.screen.reset();
         this.isFloat = false;
-        if (this.curButton === "AC"){
+        if (this.curButton == "AC"){
+            console.log("AC");
             this.reset();
         }     
     }
     enteringOperatorState(){
-            this.pushScreenText(this.screen.getContent(), this.previousOperator);  
+        this.pushScreenText(this.screen.getContent(), this.previousOperator);  
     }
     pushScreenText(preText, preOp){
         switch (preOp){
@@ -177,7 +179,7 @@ class Calculator{
 }
 
 const calculator = new Calculator();
-
+window.calculator = calculator;
 
 
 
