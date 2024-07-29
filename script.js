@@ -41,6 +41,7 @@ class Calculator{
             this.handlePercentageButtonEvents();
         });
     }
+    //This method decides the equation is entering number state or operator state
     handleButtonEvents(button){
         this.preButton = this.curButton;
         this.curButton = button.textContent;
@@ -65,6 +66,7 @@ class Calculator{
             this.handleNumber(text);
         }
     }
+    //This method decides what shows on the screen and updates the previousOperator
     handleOperatorButtonEvents(operatorButton){
         let tmpResult = this.getTmpResultNumber(operatorButton.textContent);
         this.screen.replaceScreenContent(tmpResult.toString());
