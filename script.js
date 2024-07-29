@@ -6,31 +6,17 @@ class Calculator{
         this.isFloat = false;
         this.previousOperator = null;
 
-        this.initEventListeners();
+        this.initClickEventListeners();
         this.screen = new Screen();        
         this.preButton = null;
         this.curButton = null;
         this.operatorSet = new Set(["+", "-", "*", "/", "="]);
     }
-    initEventListeners(){
+    initClickEventListeners(){
         const buttons = document.querySelectorAll(".button");
         buttons.forEach(button => {
             button.addEventListener("click", () =>{
-                this.preButton = this.curButton;
-                this.curButton = button.textContent;
-                this.highlightButton(button);
-                //operator && operator
-                if (this.preButton === "=" && this.isOperatorState(this.curButton)){
-                    this.enteringOperatorState();
-                }//operator && number
-                else if ((this.curButton === "AC")||(this.isOperatorState(this.preButton) && this.isNumberState(this.curButton))){
-                    //entering number state to computeStack
-                    this.enteringNumberState();
-                    //number && operator
-                }else if (this.isNumberState(this.preButton) && this.isOperatorState(this.curButton)){
-                    //entering operator state to pushScreenText
-                    this.enteringOperatorState();
-                }
+                this.handleButtonClick(button);
             });
         });
         const numberButtons = document.querySelectorAll(".numberButton");
@@ -60,6 +46,23 @@ class Calculator{
             let newValue = +this.screen.getContent() / 100;            
             this.screen.replaceScreenContent(`${newValue}`);
         });
+    }
+    handleButtonClick(button){
+        this.preButton = this.curButton;
+        this.curButton = button.textContent;
+        this.highlightButton(button);
+        //operator && operator
+        if (this.preButton === "=" && this.isOperatorState(this.curButton)){
+            this.enteringOperatorState();
+        }//operator && number
+        else if ((this.curButton === "AC")||(this.isOperatorState(this.preButton) && this.isNumberState(this.curButton))){
+            //entering number state to computeStack
+            this.enteringNumberState();
+            //number && operator
+        }else if (this.isNumberState(this.preButton) && this.isOperatorState(this.curButton)){
+            //entering operator state to pushScreenText
+            this.enteringOperatorState();
+        }
     }
     //screen management: shared by all event listeners
     
