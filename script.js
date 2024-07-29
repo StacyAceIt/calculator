@@ -34,13 +34,11 @@ class Calculator{
         })
         const negateButton = document.querySelector(".\\+\\/\\-");
         negateButton.addEventListener("click", () => {
-            let newValue = +this.screen.getContent() * -1;
-            this.screen.replaceScreenContent(`${newValue}`);
+            this.handleNegateButtonEvents();
         });
         const percentageButton = document.querySelector(".\\%");
         percentageButton.addEventListener("click", () => {
-            let newValue = +this.screen.getContent() / 100;            
-            this.screen.replaceScreenContent(`${newValue}`);
+            this.handlePercentageButtonEvents();
         });
     }
     handleButtonEvents(button){
@@ -60,12 +58,27 @@ class Calculator{
             this.enteringOperatorState();
         }
     }
+    handleNumberButtonEvents(text) {
+        if (text === ".") {
+            this.handleDecimalPoint();
+        } else {
+            this.handleNumber(text);
+        }
+    }
     handleOperatorButtonEvents(operatorButton){
         let tmpResult = this.getTmpResultNumber(operatorButton.textContent);
         this.screen.replaceScreenContent(tmpResult.toString());
         this.previousOperator = operatorButton.textContent;
         // console.log(this.stack);
         // console.log(`tmpResult ${tmpResult}`);
+    }
+    handleNegateButtonEvents(){
+        let newValue = +this.screen.getContent() * -1;
+        this.screen.replaceScreenContent(`${newValue}`);
+    }
+    handlePercentageButtonEvents(){
+        let newValue = +this.screen.getContent() / 100;            
+        this.screen.replaceScreenContent(`${newValue}`);
     }
     //screen management: shared by all event listeners
     
@@ -157,13 +170,6 @@ class Calculator{
                 break;
         }
 
-    }
-    handleNumberButtonEvents(text) {
-        if (text === ".") {
-            this.handleDecimalPoint();
-        } else {
-            this.handleNumber(text);
-        }
     }
     handleDecimalPoint() {
         const errorSound = new Audio('./audio/minecraft_click.mp3');
