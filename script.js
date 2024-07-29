@@ -18,6 +18,7 @@ class Calculator{
             button.addEventListener("click", () =>{
                 this.preButton = this.curButton;
                 this.curButton = button.textContent;
+                this.highlightButton(button);
                 //operator && operator
                 if (this.preButton === "=" && this.isOperatorState(this.curButton)){
                     this.enteringOperatorState();
@@ -177,6 +178,15 @@ class Calculator{
     reset(){
         this.stack = [];
         this.previousOperator = null;
+    }
+    highlightButton(button) {
+        // Remove highlight from any previously highlighted button
+        const highlightedButton = document.querySelector(".button.highlight");
+        if (highlightedButton) {
+            highlightedButton.classList.remove("highlight");
+        }
+        // Add highlight to the clicked button
+        button.classList.add("highlight");
     }
 
 }

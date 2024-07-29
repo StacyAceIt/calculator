@@ -82,3 +82,7 @@ body{
     text-shadow: 1px 1px 0 #282828, -1px -1px 0 #3e3d3d, -1px 1px 0 #414141, 1px -1px 0 #3a3a3a;
     
 }
+
+.button.highlight {
+    border: 2px solid #FFD700; /* Gold color border for highlight */
+}
