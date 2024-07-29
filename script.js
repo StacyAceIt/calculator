@@ -29,11 +29,7 @@ class Calculator{
         const operatorButtons = document.querySelectorAll(".operatorButton");
         operatorButtons.forEach(operatorButton => {
             operatorButton.addEventListener("click", () =>{
-                let tmpResult = this.getTmpResultNumber(operatorButton.textContent);
-                this.screen.replaceScreenContent(tmpResult.toString());
-                this.previousOperator = operatorButton.textContent;
-                console.log(this.stack);
-                console.log(`tmpResult ${tmpResult}`);
+                this.handleOperatorButtonClick(operatorButton);
             });
         })
         const negateButton = document.querySelector(".\\+\\/\\-");
@@ -63,6 +59,13 @@ class Calculator{
             //entering operator state to pushScreenText
             this.enteringOperatorState();
         }
+    }
+    handleOperatorButtonClick(operatorButton){
+        let tmpResult = this.getTmpResultNumber(operatorButton.textContent);
+        this.screen.replaceScreenContent(tmpResult.toString());
+        this.previousOperator = operatorButton.textContent;
+        // console.log(this.stack);
+        // console.log(`tmpResult ${tmpResult}`);
     }
     //screen management: shared by all event listeners
     
