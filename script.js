@@ -16,20 +16,20 @@ class Calculator{
         const buttons = document.querySelectorAll(".button");
         buttons.forEach(button => {
             button.addEventListener("click", () =>{
-                this.handleButtonClick(button);
+                this.handleButtonEvents(button);
             });
         });
         const numberButtons = document.querySelectorAll(".numberButton");
         numberButtons.forEach(numberButton => {
             numberButton.addEventListener("click", () => {                 
-                this.handleNumberButtonClick(numberButton.textContent);
+                this.handleNumberButtonEvents(numberButton.textContent);
             });
         });
         
         const operatorButtons = document.querySelectorAll(".operatorButton");
         operatorButtons.forEach(operatorButton => {
             operatorButton.addEventListener("click", () =>{
-                this.handleOperatorButtonClick(operatorButton);
+                this.handleOperatorButtonEvents(operatorButton);
             });
         })
         const negateButton = document.querySelector(".\\+\\/\\-");
@@ -43,7 +43,7 @@ class Calculator{
             this.screen.replaceScreenContent(`${newValue}`);
         });
     }
-    handleButtonClick(button){
+    handleButtonEvents(button){
         this.preButton = this.curButton;
         this.curButton = button.textContent;
         this.highlightButton(button);
@@ -60,7 +60,7 @@ class Calculator{
             this.enteringOperatorState();
         }
     }
-    handleOperatorButtonClick(operatorButton){
+    handleOperatorButtonEvents(operatorButton){
         let tmpResult = this.getTmpResultNumber(operatorButton.textContent);
         this.screen.replaceScreenContent(tmpResult.toString());
         this.previousOperator = operatorButton.textContent;
@@ -158,7 +158,7 @@ class Calculator{
         }
 
     }
-    handleNumberButtonClick(text) {
+    handleNumberButtonEvents(text) {
         if (text === ".") {
             this.handleDecimalPoint();
         } else {
