@@ -18,12 +18,16 @@ class Calculator{
             button.addEventListener("click", () =>{
                 this.preButton = this.curButton;
                 this.curButton = button.textContent;
-                if ((this.curButton === "AC")||(this.isOperatorState(this.preButton) && this.isNumberState(this.curButton))){
-                    //entering number state: 
+                //operator && operator
+                if (this.preButton === "=" && this.isOperatorState(this.curButton)){
+                    this.enteringOperatorState();
+                }//operator && number
+                else if ((this.curButton === "AC")||(this.isOperatorState(this.preButton) && this.isNumberState(this.curButton))){
+                    //entering number state to computeStack
                     this.enteringNumberState();
-                    
+                    //number && operator
                 }else if (this.isNumberState(this.preButton) && this.isOperatorState(this.curButton)){
-                    //entering operator state
+                    //entering operator state to pushScreenText
                     this.enteringOperatorState();
                 }
             });
@@ -41,8 +45,8 @@ class Calculator{
                 let tmpResult = this.getTmpResultNumber(operatorButton.textContent);
                 this.screen.replaceScreenContent(tmpResult.toString());
                 this.previousOperator = operatorButton.textContent;
-                // console.log(this.stack);
-                // console.log(`tmpResult ${tmpResult}`);
+                console.log(this.stack);
+                console.log(`tmpResult ${tmpResult}`);
             });
         })
         const negateButton = document.querySelector(".\\+\\/\\-");
