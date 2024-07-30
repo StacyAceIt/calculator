@@ -10,36 +10,28 @@ class Calculator{
         this.screen = new Screen();        
         this.preButton = null;
         this.curButton = null;
-        this.operatorSet = new Set(["+", "-", "*", "/", "="]);
+        this.operatorButtonSet = new Set(["+", "-", "*", "/", "="]);
+        this.numberButtonSet = new Set(["0","1", "2",
+            "3", "4", "5", "6", "7", "8", "9", "."
+        ]);
     }
     initClickEventListeners(){
         const buttons = document.querySelectorAll(".button");
         buttons.forEach(button => {
             button.addEventListener("click", () =>{
                 this.handleButtonEvents(button);
-            });
-        });
-        const numberButtons = document.querySelectorAll(".numberButton");
-        numberButtons.forEach(numberButton => {
-            numberButton.addEventListener("click", () => {                 
-                this.handleNumberButtonEvents(numberButton.textContent);
+                if (button.textContent === "%"){
+                    this.handlePercentageButtonEvents();
+                }else if (button.textContent === "+/-"){
+                    this.handleNegateButtonEvents();
+                }else if (this.operatorButtonSet.has(button.textContent)){
+                    this.handleOperatorButtonEvents(button);
+                }else if (this.numberButtonSet.has(button.textContent)){
+                    this.handleNumberButtonEvents(button);
+                }
             });
         });
         
-        const operatorButtons = document.querySelectorAll(".operatorButton");
-        operatorButtons.forEach(operatorButton => {
-            operatorButton.addEventListener("click", () =>{
-                this.handleOperatorButtonEvents(operatorButton);
-            });
-        })
-        const negateButton = document.querySelector(".\\+\\/\\-");
-        negateButton.addEventListener("click", () => {
-            this.handleNegateButtonEvents();
-        });
-        const percentageButton = document.querySelector(".\\%");
-        percentageButton.addEventListener("click", () => {
-            this.handlePercentageButtonEvents();
-        });
     }
     //This method decides the equation is entering number state or operator state
     handleButtonEvents(button){
@@ -59,7 +51,8 @@ class Calculator{
             this.enteringOperatorState();
         }
     }
-    handleNumberButtonEvents(text) {
+    handleNumberButtonEvents(button) {
+        let text = button.textContent
         if (text === ".") {
             this.handleDecimalPoint();
         } else {
@@ -87,10 +80,10 @@ class Calculator{
     //support event listeners for operator
     //push previousValue after clicking a new operator
     isNumberState(buttonLabel){
-        return !this.operatorSet.has(buttonLabel);
+        return !this.operatorButtonSet.has(buttonLabel);
     }
     isOperatorState(buttonLabel){
-        return this.operatorSet.has(buttonLabel);
+        return this.operatorButtonSet.has(buttonLabel);
     }
     enteringNumberState(){
         //this.screen.getContent is the previousValue
