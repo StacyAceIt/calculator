@@ -41,7 +41,7 @@ class Calculator{
         //operator && operator
         if (this.preButton === "=" && this.isOperatorState(this.curButton)){
             this.enteringOperatorState();
-        }//operator && number
+        }//operator && number. If curButton is AC, it doesn't matter what preButton is.
         else if ((this.curButton === "AC")||(this.isOperatorState(this.preButton) && this.isNumberState(this.curButton))){
             //entering number state to computeStack
             this.enteringNumberState();
@@ -111,7 +111,8 @@ class Calculator{
                 this.stack.push([-preText]);
                 break;
             case "=":
-                this.stack = [];               
+                // this.stack = [];
+                this.reset();               
             default:
                 console.log(`pushed ${+preText}`)
                 this.stack.push([+preText]);
@@ -160,8 +161,9 @@ class Calculator{
                 this.stack.splice(this.stack.length - 1, 1, [+newText]);
                 break;
             case "=":
-                this.stack = [];
-                this.previousOperator = null;
+                // this.stack = [];
+                // this.previousOperator = null;
+                this.reset();
                 break;
         }
 
