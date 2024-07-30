@@ -19,7 +19,7 @@ class Calculator{
         const buttons = document.querySelectorAll(".button");
         buttons.forEach(button => {
             button.addEventListener("click", () =>{
-                this.handleButtonEvents(button);
+                this.handleStack(button);
                 if (button.textContent === "%"){
                     this.handlePercentageButtonEvents();
                 }else if (button.textContent === "+/-"){
@@ -34,7 +34,7 @@ class Calculator{
         
     }
     //This method decides the equation is entering number state or operator state
-    handleButtonEvents(button){
+    handleStack(button){
         this.preButton = this.curButton;
         this.curButton = button.textContent;
         this.highlightButton(button);
