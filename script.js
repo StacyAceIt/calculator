@@ -33,8 +33,13 @@ class Calculator{
     }
     initKeydownEventListeners(){
         document.addEventListener("keydown", (event) => {
-            let buttonLabel = event.key;
-            if (this.keyboardButtonSet.has(buttonLabel)){
+            if (this.keyboardButtonSet.has(event.key)){
+                const keyMap = {
+                    'n': '+/-',
+                    'Escape': 'AC'
+                };
+                
+                let buttonLabel = keyMap[event.key] || event.key;
                 this.handleButtonEvents(buttonLabel);               
             }          
         });      
@@ -82,8 +87,8 @@ class Calculator{
         let tmpResult = this.getTmpResultNumber(operatorLabel);
         this.screen.replaceScreenContent(tmpResult.toString());
         this.previousOperator = operatorLabel;
-        console.log(this.stack);
-        console.log(`tmpResult ${tmpResult}`);
+        // console.log(this.stack);
+        // console.log(`tmpResult ${tmpResult}`);
     }
     handleNegateButtonEvents(){
         let newValue = +this.screen.getContent() * -1;
