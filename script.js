@@ -7,6 +7,7 @@ class Calculator{
         this.previousOperator = null;
 
         this.initClickEventListeners();
+        this.initKeydownEventListeners();
         this.screen = new Screen();        
         this.preButton = null;
         this.curButton = null;
@@ -14,30 +15,48 @@ class Calculator{
         this.numberButtonSet = new Set(["0","1", "2",
             "3", "4", "5", "6", "7", "8", "9", "."
         ]);
+        this.keyboardButtonSet = new Set(["0","1", "2",
+            "3", "4", "5", "6", "7", "8", "9", ".",
+            "+", "-", "*", "/", "=", "Escape", "n", "%",
+        ]);
     }
     initClickEventListeners(){
         const buttons = document.querySelectorAll(".button");
         buttons.forEach(button => {
             button.addEventListener("click", () =>{
-                this.handleStack(button);
-                if (button.textContent === "%"){
-                    this.handlePercentageButtonEvents();
-                }else if (button.textContent === "+/-"){
-                    this.handleNegateButtonEvents();
-                }else if (this.operatorButtonSet.has(button.textContent)){
-                    this.handleOperatorButtonEvents(button);
-                }else if (this.numberButtonSet.has(button.textContent)){
-                    this.handleNumberButtonEvents(button);
-                }
+                this.highlightButton(button);
+                let buttonLabel = button.textContent;                
+                this.handleButtonEvents(buttonLabel);
             });
         });
         
     }
+    initKeydownEventListeners(){
+        document.addEventListener("keydown", (event) => {
+            let buttonLabel = event.key;
+            if (this.keyboardButtonSet.has(buttonLabel)){
+                this.handleButtonEvents(buttonLabel);               
+            }          
+        });      
+    }
+    handleButtonEvents(buttonLabel){
+        this.handleStack(buttonLabel);
+        if (buttonLabel === "%"){
+            this.handlePercentageButtonEvents();
+        }else if (buttonLabel === "+/-"){
+            this.handleNegateButtonEvents();
+        }else if (this.operatorButtonSet.has(buttonLabel)){
+            this.handleOperatorButtonEvents(buttonLabel);
+        }else if (this.numberButtonSet.has(buttonLabel)){
+            this.handleNumberButtonEvents(buttonLabel);
+        }
+    }
     //This method decides the equation is entering number state or operator state
-    handleStack(button){
+    handleStack(buttonLabel){
+        console.log("handleStack " + buttonLabel);
         this.preButton = this.curButton;
-        this.curButton = button.textContent;
-        this.highlightButton(button);
+        this.curButton = buttonLabel;
+        
         //operator && operator
         if (this.preButton === "=" && this.isOperatorState(this.curButton)){
             this.enteringOperatorState();
@@ -51,21 +70,20 @@ class Calculator{
             this.enteringOperatorState();
         }
     }
-    handleNumberButtonEvents(button) {
-        let text = button.textContent
-        if (text === ".") {
+    handleNumberButtonEvents(numberLabel) {
+        if (numberLabel === ".") {
             this.handleDecimalPoint();
         } else {
-            this.handleNumber(text);
+            this.handleNumber(numberLabel);
         }
     }
     //This method decides what shows on the screen and updates the previousOperator
-    handleOperatorButtonEvents(operatorButton){
-        let tmpResult = this.getTmpResultNumber(operatorButton.textContent);
+    handleOperatorButtonEvents(operatorLabel){
+        let tmpResult = this.getTmpResultNumber(operatorLabel);
         this.screen.replaceScreenContent(tmpResult.toString());
-        this.previousOperator = operatorButton.textContent;
-        // console.log(this.stack);
-        // console.log(`tmpResult ${tmpResult}`);
+        this.previousOperator = operatorLabel;
+        console.log(this.stack);
+        console.log(`tmpResult ${tmpResult}`);
     }
     handleNegateButtonEvents(){
         let newValue = +this.screen.getContent() * -1;
@@ -92,7 +110,6 @@ class Calculator{
         this.screen.reset();
         this.isFloat = false;
         if (this.curButton == "AC"){
-            console.log("AC");
             this.reset();
         }     
     }
@@ -114,7 +131,7 @@ class Calculator{
                 // this.stack = [];
                 this.reset();               
             default:
-                console.log(`pushed ${+preText}`)
+                // console.log(`pushed ${+preText}`)
                 this.stack.push([+preText]);
         }
         
@@ -129,7 +146,7 @@ class Calculator{
             }
             result += subResult;
         }
-        console.log(`computeTmpValue ${result} type ${typeof result}`);
+        //console.log(`computeTmpValue ${result} type ${typeof result}`);
         return result;
     }
     //getTmpResultNumber when clicking on +-*/
