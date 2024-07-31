@@ -133,7 +133,12 @@ class Calculator{
                 this.stack[this.stack.length - 1].push(+preText);
                 break;
             case "/":
-                this.stack[this.stack.length - 1].push(1/preText);
+                if (+preText === 0){
+                    this.stack[this.stack.length - 1].push(NaN);
+                }else{
+                    this.stack[this.stack.length - 1].push(1/preText);
+                }
+                
                 break;
             case "-":
                 this.stack.push([-preText]);
