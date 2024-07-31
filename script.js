@@ -39,7 +39,13 @@ class Calculator{
                     'Escape': 'AC'
                 };
                 
-                let buttonLabel = keyMap[event.key] || event.key;
+                let buttonLabel = keyMap[event.key] || event.key; 
+                //getElementsByClassName returns a collection of HTML elements
+                const button = document.querySelector(`.button.${CSS.escape(buttonLabel)}`);
+                //const button = document.getElementsByClassName(buttonLabel)[0];   
+                if (button) {
+                    this.highlightButton(button);                   
+                }
                 this.handleButtonEvents(buttonLabel);               
             }          
         });      
