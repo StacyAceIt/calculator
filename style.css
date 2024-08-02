@@ -40,6 +40,8 @@ body{
     font-family: 'Franklin Gothic Heavy', 'Arial Black', sans-serif;
     overflow: hidden;
     word-wrap: break-word;
+    overflow-wrap: break-word; /* Ensure long words break */
+    white-space: normal;   /* Allow text to wrap */
     /* text-align: right; */
 }
 
@@ -85,4 +87,8 @@ body{
 
 .button.highlight {
     border: 2px solid #FFD700; /* Gold color border for highlight */
+}
+
+.adjusted{
+    font-size: 1rem;
 }
