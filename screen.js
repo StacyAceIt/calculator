@@ -20,7 +20,9 @@ export class Screen{
     adjustFontSize(text){
         if (text.length > 10){
             this.screen.style.fontSize = "2rem";
-
+        }
+        if (text.length > 20){           
+            text = Number(text).toExponential();
         }
         return text;
     }
