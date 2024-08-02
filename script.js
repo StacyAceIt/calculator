@@ -69,7 +69,9 @@ class Calculator{
         this.curButton = buttonLabel;
         
         //operator && operator
-        if (this.preButton === "=" && this.isOperatorState(this.curButton)){
+        if (this.preButton === "=" && (this.isOperatorState(this.curButton) ||
+                                        this.curButton === "%" ||
+                                        this.curButton === "+/-")){
             this.enteringOperatorState();
         }//operator && number. If curButton is AC, it doesn't matter what preButton is.
         else if ((this.curButton === "AC")||(this.isOperatorState(this.preButton) && this.isNumberState(this.curButton))){
