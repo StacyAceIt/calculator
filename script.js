@@ -64,7 +64,6 @@ class Calculator{
     }
     //This method decides the equation is entering number state or operator state
     handleStack(buttonLabel){
-        console.log("handleStack " + buttonLabel + " button clicked");
         this.preButton = this.curButton;
         this.curButton = buttonLabel;
         
@@ -93,8 +92,6 @@ class Calculator{
         let tmpResult = this.getTmpResultNumber(operatorLabel);
         this.screen.replaceScreenContent(tmpResult.toString());
         this.previousOperator = operatorLabel;
-        // console.log(this.stack);
-        // console.log(`tmpResult ${tmpResult}`);
     }
     handleNegateButtonEvents(){
         let newValue = +this.screen.getContent() * -1;
@@ -132,7 +129,6 @@ class Calculator{
         this.pushScreenText(this.screen.getContent(), this.previousOperator);  
     }
     pushScreenText(preText, preOp){
-        console.log("preText: " + preText + "preOp: " + preOp)
         switch (preOp){
             case "*":
                 this.stack[this.stack.length - 1].push(+preText);
@@ -150,10 +146,8 @@ class Calculator{
                 break;
             case "=":
                 // this.stack = [];
-                this.reset();
-                console.log("reset stack " + this.stack);               
+                this.reset();              
             default:
-                // console.log(`pushed ${+preText}`)
                 this.stack.push([+preText]);
         }
         
