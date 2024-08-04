@@ -69,9 +69,7 @@ class Calculator{
         this.curButton = buttonLabel;
         
         //operator && operator
-        if (this.preButton === "=" && (this.isOperatorState(this.curButton) ||
-                                        this.curButton === "%" ||
-                                        this.curButton === "+/-")){
+        if (this.preButton === "=" && this.isOperatorState(this.curButton)){
             this.enteringOperatorState();
         }//operator && number. If curButton is AC, it doesn't matter what preButton is.
         else if ((this.curButton === "AC")||(this.isOperatorState(this.preButton) && this.isNumberState(this.curButton))){
@@ -120,7 +118,11 @@ class Calculator{
         //this.screen.getContent is the previousValue
         this.computeStack(this.screen.getContent());
         //reset screen content to 0 after storing screen content
-        this.screen.reset();
+        if (!(this.preButton === "=" && (this.curButton === "%" 
+                                    || this.curButton === "+/-"))){
+            this.screen.reset();
+        }
+        
         this.isFloat = false;
         if (this.curButton == "AC"){
             this.reset();
