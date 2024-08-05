@@ -15,21 +15,19 @@ This project is a basic HTML calculator that can perform basic arithmetic operat
 6. **Display**: A display for the calculator that shows the current operation and result.
 7. **Populating Display**: Functions that populate the display when number buttons are clicked.
 8. **Performing Calculations**: Storing the first and second numbers input into the calculator, utilizing the operator selected by the user, and then performing the operation when the “=” key is pressed.
-9. **Clear Button**: A “clear” button that wipes out any existing data and resets the calculator.
-10. **Error Handling**: Displaying an error message if the user tries to divide by 0.
+9. **Clear Button**: A “AC” button that wipes out any existing data and resets the calculator.
+10. **Error Handling**: Displaying NaN if the user tries to divide by 0.
 11. **Extra Credit Features**:
     - **Decimal Input**: A button for decimal points to allow users to input floating point numbers.
-    - **Backspace Button**: A “backspace” button to allow users to undo if they click the wrong number.
     - **Keyboard Support**: Support for keyboard input for all calculator functions.
     - **Enhanced UI**: Improved aesthetics with CSS, making operations a different color from the keypad buttons.
 
 ## Usage
 
 1. **Basic Operations**: Click on the number buttons to input the first number, select an operator (+, -, *, /), input the second number, and then click the “=” button to see the result.
-2. **Clearing the Display**: Click the “clear” button to reset the calculator.
+2. **Clearing the Display**: Click the AC button to reset the calculator.
 3. **Decimal Numbers**: Click the “.” button to input a decimal point. Ensure only one decimal point is added per number.
-4. **Backspace**: Click the “backspace” button to remove the last digit entered.
-5. **Keyboard Support**: Use the keyboard to input numbers, operators, and to perform calculations.
+4. **Keyboard Support**: Use the keyboard to input numbers, operators, and to perform calculations.
 
 ## Bugs and Gotchas
 
