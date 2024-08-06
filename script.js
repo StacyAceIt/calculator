@@ -142,12 +142,15 @@ class Calculator{
                 
                 break;
             case "-":
-                this.stack.push([-preText]);
+                this.stack.push("-")
+                this.stack.push([preText]);
+                break;
+            case "+":
+                this.stack.push("+")
+                this.stack.push([preText]);
                 break;
             case "=":
-                // this.stack = [];
                 this.reset();              
-            default:
                 this.stack.push([+preText]);
         }
         
